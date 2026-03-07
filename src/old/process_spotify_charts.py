@@ -4,7 +4,6 @@ import re
 import json
 from pathlib import Path
 
-
 INPUT_PATH = "data/raw/spotify_charts/*.csv"
 OUTPUT_FILE = "data/processed/spotify_charts/spotify_artist_streams_monthly.json"
 
@@ -50,7 +49,7 @@ def normalize_columns(df):
         .astype(str)
         .str.replace(",", "")
     )
-    
+
     # Split artists for collaborated songs
     df["artist"] = df["artist"].str.split(", ")
     df = df.explode("artist")
@@ -75,7 +74,6 @@ def extract_date(filename):
 
 
 def main():
-
     files = sorted(glob.glob(INPUT_PATH))
 
     if not files:
@@ -84,7 +82,6 @@ def main():
     all_frames = []
 
     for file in files:
-
         df = pd.read_csv(file)
 
         df = normalize_columns(df)
