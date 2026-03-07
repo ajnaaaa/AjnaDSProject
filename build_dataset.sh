@@ -8,6 +8,7 @@ python src/scripts/get_artists_list.py       # artists.py + artists_list.csv
 python src/scripts/collect_artists_lastfm.py # Last.fm Metriken
 python src/scripts/collect_ticketmaster.py   # Ticketmaster Events
 python src/scripts/collect_toptracks.py      # Last.fm Top-Tracks (für F2)
+python src/scripts/process_spotify_charts.py # Spotify Charts → chart_artists.csv (für F3)
 python src/scripts/join_data.py              # alles zusammenführen → final_dataset.csv
 
 echo "✅ Fertig!"

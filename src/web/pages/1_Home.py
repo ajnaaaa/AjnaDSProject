@@ -2,132 +2,25 @@ import streamlit as st
 import pandas as pd
 import os
 
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+from components.styles import apply_styles
+from components.nav    import render_nav
+from components.glossary import apply_glossary_styles, tt
+
 st.set_page_config(
     page_title="Live Music: Digital Popularity vs Reality",
     page_icon="🎵",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+apply_styles()
+render_nav()
+apply_glossary_styles()
+
 
 # ── Custom CSS ─────────────────────────────────────────
-st.markdown("""
-<style>
-    /* Hauptfarben */
-    :root {
-        --primary: #1DB954;
-        --dark: #191414;
-        --card-bg: #1e1e1e;
-        --text: #FFFFFF;
-        --subtext: #b3b3b3;
-    }
 
-    .main { background-color: #0e0e0e; }
-
-    /* Hero Section */
-    .hero {
-        background: linear-gradient(135deg, #191414 0%, #1a3a2a 100%);
-        border-radius: 16px;
-        padding: 60px 40px;
-        text-align: center;
-        margin-bottom: 40px;
-        border: 1px solid #1DB954;
-    }
-    .hero h1 {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: #1DB954;
-        margin-bottom: 10px;
-    }
-    .hero p {
-        font-size: 1.2rem;
-        color: #b3b3b3;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    /* Research Question Cards */
-    .rq-card {
-        background: #1e1e1e;
-        border-radius: 12px;
-        padding: 24px;
-        border-left: 4px solid #1DB954;
-        margin-bottom: 16px;
-        height: 100%;
-    }
-    .rq-card h4 {
-        color: #1DB954;
-        margin-bottom: 8px;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .rq-card p {
-        color: #ffffff;
-        font-size: 0.95rem;
-        margin: 0;
-        line-height: 1.5;
-    }
-
-    /* Stats Cards */
-    .stat-card {
-        background: #1e1e1e;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        border: 1px solid #333;
-    }
-    .stat-number {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: #1DB954;
-    }
-    .stat-label {
-        font-size: 0.85rem;
-        color: #b3b3b3;
-        margin-top: 4px;
-    }
-
-    /* Section Header */
-    .section-header {
-        color: #ffffff;
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #1DB954;
-    }
-
-    /* Data Source Badge */
-    .badge {
-        display: inline-block;
-        background: #1DB954;
-        color: #000;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin: 4px;
-    }
-
-    /* Sidebar */
-    .css-1d391kg { background-color: #191414; }
-
-    /* Methodology Box */
-    .methodology-box {
-        background: #1a2a1a;
-        border: 1px solid #1DB954;
-        border-radius: 12px;
-        padding: 20px 24px;
-        margin-top: 10px;
-    }
-    .methodology-box p {
-        color: #b3b3b3;
-        font-size: 0.9rem;
-        line-height: 1.7;
-        margin: 0;
-    }
-</style>
-""", unsafe_allow_html=True)
 
 # ── Hero Section ───────────────────────────────────────
 st.markdown("""
@@ -329,7 +222,7 @@ with col3:
 with st.sidebar:
     st.markdown("## 🎵 Live Music Project")
     st.markdown("**Christian-Albrechts-Universität zu Kiel**")
-    st.markdown("Data Science Projekt – 2026")
+    st.markdown("Data Science Praktikum — 2026")
     st.divider()
     st.markdown("### Data Sources")
     st.markdown("- 🎧 Last.fm API")
@@ -342,4 +235,4 @@ with st.sidebar:
         st.success(f"✅ Dataset loaded: {n_artists} artists")
     else:
         st.warning("⚠️ No data found. Run data collection scripts first.")
-        st.code("python scripts/collect_artists_lastfm.py\npython scripts/collect_ticketmaster_ORIG.py\npython scripts/join_data.py")
+        st.code("python scripts/collect_artists_lastfm.py\npython scripts/collect_ticketmaster.py\npython scripts/join_data.py")
