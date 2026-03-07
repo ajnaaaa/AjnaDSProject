@@ -215,8 +215,8 @@ Chart Artists:     {n_chart}  Ø {mean_c:,.0f} Listeners
 Non-Chart Artists: {n_non_chart}  Ø {mean_nc:,.0f} Listeners
 Verhältnis:        {mean_c/mean_nc:.1f}× höher bei Chart Artists
 
-Mann-Whitney U:    p = {u_p:.6f if 'u_p' in dir() else 'n/a'}  → {'Signifikant ✅' if sig else 'Nicht signifikant ⚠️'}
-Cohen's d (log):   {cohens_d:.3f if 'cohens_d' in dir() else 'n/a'}  → {effect_lbl if 'effect_lbl' in dir() else ''}
+Mann-Whitney U:    p = {f'{u_p:.6f}' if 'u_p' in dir() else 'n/a'}  → {'Signifikant ✅' if sig else 'Nicht signifikant ⚠️'}
+Cohen's d (log):   {f'{cohens_d:.3f}' if 'cohens_d' in dir() else 'n/a'}  → {effect_lbl if 'effect_lbl' in dir() else ''}
 
 → {"Chart-Auftritte gehen mit signifikant höheren Last.fm Listener-Zahlen einher — cross-platform Popularität ist konsistent." if sig
    else "Kein signifikanter Unterschied — Last.fm Listeners und Spotify Chart-Präsenz sind nicht stark korreliert in diesem Datensatz."}

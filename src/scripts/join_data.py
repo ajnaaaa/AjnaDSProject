@@ -35,9 +35,29 @@ today = pd.Timestamp(date.today())
 one_year_ago = today - pd.DateOffset(years=1)
 
 df_events["event_date_dt"] = pd.to_datetime(df_events["event_date"], errors="coerce")
-df_events["lead_time_days"] = pd.to_numeric(df_events["lead_time_days"], errors="coerce")
+df_events["onsale_date_dt"] = pd.to_datetime(df_events["onsale_date"], errors="coerce", utc=True).dt.tz_localize(None)
 df_events["is_weekend"] = pd.to_numeric(df_events["is_weekend"], errors="coerce")
 df_events["is_capital"] = pd.to_numeric(df_events["is_capital"], errors="coerce")
+
+# ── Lead Time: Nur zukünftige Events — 1 Wert pro Artist ─────────────────
+# Nur Artists die mindestens ein zukünftiges Event haben.
+# Pro Artist:
+#   first_event_date  = frühestes event_date >= today
+#   first_onsale_date = frühestes onsale_date dieser zukünftigen Events
+#   lead_time_days    = first_event_date - first_onsale_date
+_df_future = df_events[
+    (df_events["event_date_dt"] >= today) &
+    df_events["onsale_date_dt"].notna()
+    ].copy()
+
+_first_event = _df_future.groupby("artist_name")["event_date_dt"].min().rename("first_event_date")
+_first_onsale = _df_future.groupby("artist_name")["onsale_date_dt"].min().rename("first_onsale_date")
+_lead_df = pd.concat([_first_event, _first_onsale], axis=1).dropna()
+_lead_df["lead_time_days"] = (_lead_df["first_event_date"] - _lead_df["first_onsale_date"]).dt.days
+_lead_df.loc[_lead_df["lead_time_days"] < 0, "lead_time_days"] = None  # Datenfehler
+n_lead = _lead_df["lead_time_days"].notna().sum()
+print(f"lead_time_days: {n_lead} Artists mit zukuenftigem Event + onsale_date "
+      f"(Median: {_lead_df['lead_time_days'].median():.0f} Tage)")
 
 # ── Dedup: VIP/Package-Events entfernen ───────────────────────────────────
 # Ticketmaster listet VIP Packages, Business Seats etc. als eigene Events
@@ -73,7 +93,6 @@ tour_base = (
     .agg(
         total_events=("event_id", "count"),
         weekend_events=("is_weekend", "sum"),
-        avg_lead_time=("lead_time_days", "mean"),
         countries=("country", "nunique"),
         cities=("city", "nunique"),
     )
@@ -98,7 +117,7 @@ def get_touring_status(group):
     })
 
 
-touring_df = df_events.groupby("artist_name").apply(get_touring_status).reset_index()
+touring_df = df_events.groupby("artist_name").apply(get_touring_status, include_groups=False).reset_index()
 
 # ══════════════════════════════════════════════════════════════════════════
 # 3) F2 — Events letztes Jahr (Tour-Intensität)
@@ -147,7 +166,7 @@ def f4_revisit(group):
     })
 
 
-revisit_df = df_events.groupby("artist_name").apply(f4_revisit).reset_index()
+revisit_df = df_events.groupby("artist_name").apply(f4_revisit, include_groups=False).reset_index()
 
 # F4 Detail: Artist × Stadt × Besuche
 agg_dict = {"visits": ("event_id", "count"), "first_visit": ("event_date", "min"),
@@ -196,7 +215,7 @@ def f6_capital(group):
     })
 
 
-capital_df = df_events.groupby("artist_name").apply(f6_capital).reset_index()
+capital_df = df_events.groupby("artist_name").apply(f6_capital, include_groups=False).reset_index()
 
 # F6 Detail 1: Welche Hauptstädte gesamt am häufigsten besucht?
 capitals_visited = (
@@ -232,7 +251,7 @@ def avg_days_between(group):
     return round(dates.diff().dropna().dt.days.mean(), 1)
 
 
-days_df = df_events.groupby("artist_name").apply(avg_days_between).reset_index()
+days_df = df_events.groupby("artist_name").apply(avg_days_between, include_groups=False).reset_index()
 days_df.columns = ["artist_name", "avg_days_between_shows"]
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -253,6 +272,11 @@ if os.path.exists("data/raw/lastfm_toptracks.csv"):
 # 8) ZUSAMMENFÜHREN
 # ══════════════════════════════════════════════════════════════════════════
 df_final = tour_base.copy()
+# lead_time_days einmergen (berechnet aus first_onsale_date → first_event_date)
+df_final = df_final.merge(
+    _lead_df[["lead_time_days"]].reset_index().rename(columns={"artist_name": "artist_name"}),
+    on="artist_name", how="left"
+)
 for sub in [touring_df, events_lastyear, revisit_df, capital_df, days_df]:
     df_final = df_final.merge(sub, on="artist_name", how="left")
 if conc_df is not None:

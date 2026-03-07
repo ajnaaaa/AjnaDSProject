@@ -1,10 +1,11 @@
 import streamlit as st
-import sys, os
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from components.styles import apply_styles
-from components.nav import render_nav
-from components.glossary import TERMS, glossar_seite
+from components.navbar import render_navbar
+from components.glossary import apply_glossary_styles, tt, glossar_seite, TERMS
+
+apply_glossary_styles()  # einmal pro Page aufrufen
+st.markdown("Der " + tt("Pearson r") + " beträgt 0.21", unsafe_allow_html=True)
 
 st.set_page_config(
     page_title="Glossar",
@@ -13,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 apply_styles()
-render_nav()
+render_navbar()
 
 st.markdown("""
 <div class="page-header">
@@ -28,12 +29,12 @@ if suche.strip():
     treffer = {t: v for t, v in TERMS.items()
                if suche.lower() in t.lower() or suche.lower() in v["kurz"].lower()}
     if treffer:
-        st.markdown("**" + str(len(treffer)) + " Treffer fuer: " + suche + "**")
+        st.markdown("**" + str(len(treffer)) + " Treffer für: " + suche + "**")
         for term, t in treffer.items():
             with st.expander(t["emoji"] + " **" + term + "** — *" + t["kurz"] + "*", expanded=True):
                 st.markdown(t["lang"])
     else:
-        st.warning("Kein Treffer fuer: " + suche)
+        st.warning("Kein Treffer für: " + suche)
     st.divider()
 
 glossar_seite()

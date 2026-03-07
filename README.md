@@ -10,11 +10,11 @@
 
 ## Graphic analysis
 
-### 1. What is the ratio of revisit cities to new cities on an artists current tour?
+### 1. What is the ratio of revisit cities to new cities on an artist's current tour?
 
-### 2. How well do the countries where an artist has the highest streaming popularity on Last.fm align with the distribution of cities they play on their Ticketmaster tour?
+### 2. What proportion of an artist's performances take place in capital cities compares to non-capital cities?
 
-### 3. What proportion of an artist’s performances take place in capital cities compares to non-capital cities?
+### 3. How well do the countries where an artist has the highest listener reach on Last.fm align with the countries where they perform on their Ticketmaster tour?
 
 ## Market time & scheduling
 
