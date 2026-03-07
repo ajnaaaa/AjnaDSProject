@@ -8,23 +8,23 @@ Import in jede Page:
 import streamlit as st
 
 COLORS = {
-    "bg":        "#080b14",
-    "surface":   "#0f1320",
-    "surface2":  "#161c2d",
-    "surface3":  "#1d2440",
-    "border":    "#232840",
-    "border2":   "#2e3557",
-    "primary":   "#6366f1",
+    "bg": "#080b14",
+    "surface": "#0f1320",
+    "surface2": "#161c2d",
+    "surface3": "#1d2440",
+    "border": "#232840",
+    "border2": "#2e3557",
+    "primary": "#6366f1",
     "primary_l": "#818cf8",
     "primary_d": "#4338ca",
-    "accent":    "#f59e0b",
-    "accent_l":  "#fbbf24",
-    "green":     "#10b981",
-    "red":       "#f43f5e",
-    "cyan":      "#22d3ee",
-    "text":      "#f1f5f9",
-    "text_m":    "#94a3b8",
-    "text_d":    "#475569",
+    "accent": "#f59e0b",
+    "accent_l": "#fbbf24",
+    "green": "#10b981",
+    "red": "#f43f5e",
+    "cyan": "#22d3ee",
+    "text": "#f1f5f9",
+    "text_m": "#94a3b8",
+    "text_d": "#475569",
 }
 
 CSS = """
@@ -161,11 +161,11 @@ code { background:var(--surface2) !important; color:var(--primary-l) !important;
 .page-header h1 { color:var(--text) !important; font-size:1.7rem !important; font-weight:800 !important; margin:0 0 6px 0 !important; background:linear-gradient(90deg,var(--primary-l) 0%,var(--accent-l) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .page-header p { color:var(--text-m) !important; margin:0 !important; font-size:.93rem !important; }
 
-.rq-box { background:linear-gradient(135deg,#12153a 0%,#0f1a2e 100%); border:1px solid var(--primary-d); border-radius:var(--r); padding:16px 20px; margin-bottom:22px; }
-.rq-box h3 { color:var(--primary-l) !important; margin:0 0 6px 0 !important; font-size:.7rem !important; text-transform:uppercase !important; letter-spacing:.12em !important; font-weight:700 !important; }
+.rq-box { background:linear-gradient(135deg,#4f58b0 0%,#bbc0c9 100%); border:1px solid var(--primary-d); border-radius:var(--r); padding:16px 20px; margin-bottom:22px; }
+.rq-box h3 { color:var(--primary-l) !important; margin:0 0 6px 0 !important; font-size:1.2rem !important; text-transform:uppercase !important; letter-spacing:.12em !important; font-weight:700 !important; }
 .rq-box p { color:var(--text) !important; margin:0 !important; font-size:1rem !important; font-weight:500 !important; line-height:1.5 !important; }
 
-.section-title { font-size:1rem !important; font-weight:700 !important; color:var(--text) !important; margin:26px 0 10px 0 !important; padding-bottom:8px !important; border-bottom:1px solid var(--border) !important; }
+.section-title { font-size:1.1rem !important; font-weight:700 !important; color:var(--text) !important; margin:26px 0 10px 0 !important; padding-bottom:8px !important; border-bottom:1px solid var(--border) !important; }
 
 .insight-card { background:var(--surface2); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; margin-bottom:10px; border-left:3px solid var(--primary); transition:var(--t); }
 .insight-card:hover { border-color:var(--border2); }
@@ -176,5 +176,8 @@ code { background:var(--surface2) !important; color:var(--primary-l) !important;
 .methodology-note p { color:var(--text-d) !important; font-size:.79rem !important; margin:0 !important; font-style:italic; line-height:1.6 !important; }
 """
 
+
 def apply_styles():
     st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+
+    # rgb(141 92 168);
