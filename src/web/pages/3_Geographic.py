@@ -1160,7 +1160,7 @@ m1g1, m2g1, m3g1 = st.columns(3)
 m1g1.metric("n Artists", len(df_g1))
 m2g1.metric("Pearson r", f"{r_g1:.3f}")
 m3g1.metric("p-Value", f"{p_g1:.4f}",
-            delta="significant ✅" if p_g1 < 0.05 else "not significant ⚠️",
+            delta="significant " if p_g1 < 0.05 else "not significant ⚠️",
             delta_color="normal" if p_g1 < 0.05 else "inverse")
 
 fig_g1 = px.scatter(
@@ -1207,7 +1207,7 @@ with g1b:
     st.plotly_chart(fig_g1, use_container_width=True)
 
 # ── Texte vorbereiten ──────────────────────────────────────────────────────
-sig_label = "significant ✅" if p_g1 < 0.05 else "not significant ⚠️"
+sig_label = "significant " if p_g1 < 0.05 else "not significant ⚠️"
 sig_sentence = (
     "This result is statistically significant — the relationship is unlikely to have occurred by chance."
     if p_g1 < 0.05 else
