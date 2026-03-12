@@ -953,16 +953,14 @@ st.divider()
 # ══════════════════════════════════════════════════════════════════════════
 # ZUSAMMENFASSUNG Q2
 # ══════════════════════════════════════════════════════════════════════════
-st.markdown('<div class="section-title">Zusammenfassung — Question 2: Capital Cities</div>',
+bitte passe dann die zusammenfassung an und mache auf englisch alles. analysiere zu welcem ergebnis wir gekommen sind st.markdown('<div class="section-title">Zusammenfassung — Question 2: Capital Cities</div>',
             unsafe_allow_html=True)
-
 corr6 = df_f6.dropna(subset=["pct_capital", "listeners"]).copy()
 corr6["listeners"] = pd.to_numeric(corr6["listeners"], errors="coerce")
 corr6 = corr6.dropna(subset=["listeners"])
 r6_s = p6_s = None
 if len(corr6) >= 5:
     r6_s, p6_s = stats.pearsonr(np.log10(corr6["listeners"] + 1), corr6["pct_capital"])
-
 st.markdown(f"""
 | Metrik | Wert |
 |--------|------|
@@ -976,7 +974,6 @@ st.markdown(f"""
 | Pearson r (log Listeners → pct_capital) | {f'{r6_s:.3f}' if r6_s is not None else 'n/a'} |
 | p-Wert | {f'{p6_s:.4f}' if p6_s is not None else 'n/a'} |
 """)
-
 if r6_s is not None:
     strength6 = "stark" if abs(r6_s) >= 0.7 else "moderat" if abs(r6_s) >= 0.4 else "schwach"
     st.markdown(f"""
@@ -1000,7 +997,6 @@ if r6_s is not None:
         </p>
     </div>
     """, unsafe_allow_html=True)
-
 st.markdown("""
 <div class="methodology-note">
     <p>
@@ -1012,9 +1008,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
-
 st.divider()
-
 st.markdown('<div id="geo-frage-3"></div>', unsafe_allow_html=True)
 # ══════════════════════════════════════════════════════════════════════════
 # RESEARCH QUESTION 3
