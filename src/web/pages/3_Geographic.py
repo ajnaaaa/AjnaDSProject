@@ -622,8 +622,8 @@ df_b6 = df_b6.dropna(subset=[groupby_col])
 
 g_lbls_f6 = {
     3: ["Low", "Middle", "High"],
-    4: ["Q1 Low", "Q2", "Q3", "Q4 High"],
-    5: ["Q1 Low", "Q2", "Q3", "Q4", "Q5 High"],
+    4: ["Q1 Low", "Q2 Low-mid", "Q3 Mid-high", "Q4 High"],
+    5: ["Q1 Low", "Q2 Low-mid", "Q3 Mid", "Q4 Mid-high", "Q5 High"],
 }[n_tiers_f6]
 G_COLORS_F6 = ["#4a4a4a", "#7fb3d3", "#1a9850", "#1DB954", "#52BE80"][:n_tiers_f6]
 
