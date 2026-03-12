@@ -1050,23 +1050,22 @@ with c1:
     st.markdown("""
     <div class="insight-card">
         <h4>📐 Jaccard-Similarity</h4>
-        <p>Ueberlappung der Top-10 Streaming-Länder (nach Listeners)
-        mit den Tour-Ländern.
-        <p>U0 = kein Match · 1 = perfekt.</p>
+        <p>Overlap of the Top 10 streaming countries (by listeners) with the tour countries.
+        <p>U0 = no Match · 1 = perfect match.</p>
     </div>""", unsafe_allow_html=True)
 with c2:
     st.markdown("""
     <div class="insight-card accent">
         <h4>🗺️ Weighted Coverage</h4>
-        <p><strong>Listener-gewichtet:</strong> Welcher Anteil der Listener-Reichweite
-        wird durch die Tour abgedeckt? Hauptmetrik dieser Analyse.</p>
+        <p><strong>Listener-weighted:</strong> What share of the listener reach is covered by the tour?
+         This is the main metric of this analysis.</p>
     </div>""", unsafe_allow_html=True)
 with c3:
     st.markdown("""
     <div class="insight-card">
         <h4>📡 Streaming Reach</h4>
-        <p>Wie viel % der Streaming-Länder werden auch betourt?
-        Misst ob ungenutzte Märkte existieren.</p>
+        <p>What percentage of streaming countries are also included in the tour?
+        This measures whether there are untapped markets.</p>
     </div>""", unsafe_allow_html=True)
 
 
