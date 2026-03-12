@@ -379,7 +379,7 @@ if city_df is not None:
     c1, c2 = st.columns([1, 3])
     with c1:
         top_n = st.slider("Top N Cities", 10, 40, 20, key="f4c_n")
-        col_metric = st.radio("Farbe nach",
+        col_metric = st.radio("Color by",
                               ["Total Visits", "Number of Artists", "Capital city?"],
                               index=0, key="f4c_col")
         min_art = st.slider("Minimum-Artists", 1, 10, 2, key="f4c_ma")
