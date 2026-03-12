@@ -448,7 +448,7 @@ if city_df is not None:
     <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
     <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
     <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-    A steep concentration in the top few cities confirms that touring is not geographically uniform — artists converge on the same established hubs. These hubs are precisely the "proven markets" most likely to be revisited, directly linking this finding to Research Question 1.
+    A strong concentration of visits in only a few top cities shows that touring is not evenly spread across locations. Instead, many artists perform in the same well-known hubs. These hubs represent established markets where artists already know there is strong demand, which makes them more likely to return there again.
     </div>
     </div>
     """, unsafe_allow_html=True)
