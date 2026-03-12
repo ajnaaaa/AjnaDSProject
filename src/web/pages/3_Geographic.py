@@ -953,7 +953,7 @@ st.divider()
 # ══════════════════════════════════════════════════════════════════════════
 # ZUSAMMENFASSUNG Q2
 # ══════════════════════════════════════════════════════════════════════════
-st.markdown('<div class="section-title">Summary — Research Question 2: Capital Cities</div>',
+st.markdown('<div class="section-title">Summary — Question 2: Capital Cities</div>',
             unsafe_allow_html=True)
 
 corr6 = df_f6.dropna(subset=["pct_capital", "listeners"]).copy()
@@ -1018,7 +1018,13 @@ st.markdown("""
     Capital cities classified via the RestCountries API (<code>get_capitals.py</code>) —
     245 capitals worldwide. Matching is performed by city name (case-insensitive).
     Cities that serve as both a capital and a major economic centre (e.g. London, Paris)
-    may inflate the capital share. Events without
+    may inflate the capital share. Events without a city name are excluded.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+st.divider()
+st.markdown('<div id="geo-frage-3"></div>', unsafe_allow_html=True)
 # ══════════════════════════════════════════════════════════════════════════
 # RESEARCH QUESTION 3
 # ══════════════════════════════════════════════════════════════════════════
