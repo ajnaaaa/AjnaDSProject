@@ -1135,10 +1135,10 @@ with g1a:
                                 "tour_coverage": "Tour Coverage",
                                 "streaming_reach": "Streaming Reach",
                             }[x], key="ga2_color")
-    show_labels_g1 = st.checkbox("Namen", value=False, key="ga2_lbl")
+    show_labels_g1 = st.checkbox("Show Names", value=False, key="ga2_lbl")
 
 GA2_Y = "weighted_coverage" if "weighted_coverage" in ga.columns else "jaccard"
-GA2_Y_LABEL = "Weighted Coverage (listener-gewichtet)" if GA2_Y == "weighted_coverage" else "Jaccard-Similarity"
+GA2_Y_LABEL = "Weighted Coverage (Listener-weighted)" if GA2_Y == "weighted_coverage" else "Jaccard-Similarity"
 df_g1 = ga.dropna(subset=["listeners", GA2_Y]).copy()
 df_g1["log_listeners"] = np.log10(df_g1["listeners"] + 1)
 
