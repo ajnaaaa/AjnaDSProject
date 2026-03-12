@@ -1278,7 +1278,7 @@ The three metrics capture different dimensions of how well tour locations match 
 	•	Streaming Reach (green): Shows how internationally distributed the artist’s streaming audience is.<br>
 
 By comparing these metrics across popularity tiers, the graph reveals how geographic alignment between streaming audiences and touring activity changes with artist popularity.
-""")
+""",unsafe_allow_html=True)
 
 df_g2 = ga.dropna(subset=["listeners", "jaccard"]).copy()
 df_g2["tier"] = pd.qcut(df_g2["listeners"], q=4,
