@@ -409,8 +409,9 @@ if city_df is not None:
                       labels={"total_visits": "Visits", "city": "", "n_artists": "Artists"},
                       template="plotly_dark")
     else:
-        city_top["cap_label"] = city_top["is_capital"].map({1: "Capital city", 0: "Non-Capital city",
-                                                            True: "Capital city", False: "Non-Capital city"})
+        city_top["cap_label"] = city_top["is_capital"].apply(
+            lambda x: "Capital city" if pd.notna(x) and int(x) == 1 else "Non-Capital city"
+        )
         fig3 = px.bar(city_top, x="total_visits", y="city", orientation="h",
                       color="cap_label",
                       color_discrete_map={"Capital city": "#1DB954", "Non-Capital city": "#4a4a4a"},
