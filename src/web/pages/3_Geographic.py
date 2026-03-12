@@ -355,7 +355,7 @@ try:
         <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
         <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
         <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-        {"f the medians rise consistently from small to large tour groups and the test is significant, this confirms that tour scale drives consolidation — bigger artists increasingly rely on cities they have already proven. If no significant difference is found, revisit behaviour is more of an individual artistic choice, independent of how large the tour is."} 
+        {"If the medians rise consistently from small to large tour groups and the test is significant, this confirms that tour scale drives consolidation - bigger artists increasingly rely on cities they have already proven. If no significant difference is found, revisit behaviour is more of an individual artistic choice, independent of how large the tour is."} 
         </div>
         </div>
         """, unsafe_allow_html=True)
