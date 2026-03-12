@@ -1340,7 +1340,7 @@ st.markdown(f"""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-A Kruskal–Wallis test was used to compare the alignment metrics across popularity tiers.
+A Kruskal–Wallis test was used to compare the alignment metrics across popularity tiers.<br>
 	•	H = 10.16
 	•	p = 0.017
 
