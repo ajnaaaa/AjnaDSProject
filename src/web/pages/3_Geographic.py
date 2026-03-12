@@ -38,7 +38,7 @@ st.markdown("""
     padding:24px 28px;margin-bottom:28px; box-shadow:0 8px 24px rgba(0,0,0,.22);">
     <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;
         letter-spacing:.12em;color:#7C89A3 !important;margin-bottom:14px;">
-        Inhaltsübersicht — Forschungsfragen
+        Table of Contents - Research Questions
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;">
         <a href="#geo-frage-1" style="display:flex;align-items:flex-start;gap:12px;
