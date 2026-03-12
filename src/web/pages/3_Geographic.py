@@ -783,9 +783,11 @@ if len(df_sc6) >= 5:
     <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
     <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
     Pearson r = <strong>{r6:.3f}</strong>, R² = <strong>{r2_6:.1%}</strong>, p = <strong>{p6:.4f}</strong>
-    → <strong>{strength}e {"positive" if r6 > 0 else "negative"} Korrelation</strong>,
-    {"statistisch signifikant ✅" if p6 < 0.05 else "nicht signifikant ⚠️"}.
-    R² = {r2_6:.1%} means listener popularity explains {r2_6:.1%} of the variance in capital-city share; other factors account for the rest.
+    → <strong>{strength} {"positive" if r6 > 0 else "negative"} correlation</strong>,
+    {"statistically significant ✅" if p6 < 0.05 else "not statistically significant ⚠️"}.
+    Pearson r measures the strength and direction of the relationship between streaming popularity and capital-city share — a value near 0 indicates virtually no linear relationship.
+    R² = <strong>{r2_6:.1%}</strong> means that listener popularity explains only {r2_6:.1%} of the variance in capital-city share; the remaining {100 - r2_6*100:.1f}% is driven by other factors such as genre, touring region, or booking strategy.
+    {"A p-value of " + f"{p6:.4f}" + " confirms this result is statistically significant — the relationship is unlikely to be a random artefact." if p6 < 0.05 else "A p-value of " + f"{p6:.4f}" + " means this result is not statistically significant — the observed correlation could easily be due to chance in a sample of this size."}
     </div>
     </div>
     """, unsafe_allow_html=True)
