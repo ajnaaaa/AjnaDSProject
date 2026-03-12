@@ -699,20 +699,19 @@ st.markdown('<div class="section-title">📈 Graph 2 — Capital City Share vs. 
             unsafe_allow_html=True)
 
 st.markdown("""
-Each dot is one artist. The x-axis shows Last.fm listeners (log scale); the y-axis shows the share of concerts in capital cities.
-The green OLS regression line indicates whether more popular artists play proportionally more or fewer capital city shows.
+This scatterplot examines the continuous relationship between an artist's streaming popularity and the proportion of their concerts held in capital cities. The x-axis shows Last.fm listener counts on a log scale to compress the wide range of popularity values, while the y-axis shows the selected capital-city metric. A green OLS regression line is overlaid to capture the overall trend across all artists, and each dot can be hovered to inspect individual cases.
 """)
 
 sc6_1, sc6_2 = st.columns([1, 3])
 with sc6_1:
-    sc6_y = st.radio("Y-Achse",
+    sc6_y = st.radio("X-Axis",
                      ["pct_capital", "pct_capital_cities"],
                      index=0, key="f6s_y",
                      format_func=lambda x: {"pct_capital": "% Capital Events",
-                                            "pct_capital_cities": "% Capital Städte"}[x])
-    sc6_logy = st.checkbox("Log Y-Achse", value=False, key="f6s_logy")
-    sc6_lbls = st.checkbox("Namen anzeigen", value=False, key="f6s_lbl")
-    sc6_min = st.slider("Mindest-Events", 1, 20, 3, key="f6s_min")
+                                            "pct_capital_cities": "% Capital Cities"}[x])
+    sc6_logy = st.checkbox("Log Y-Axis", value=False, key="f6s_logy")
+    sc6_lbls = st.checkbox("Show Names", value=False, key="f6s_lbl")
+    sc6_min = st.slider("Min-Events", 1, 20, 3, key="f6s_min")
 
 df_sc6 = df_f6[df_f6["total_events"] >= sc6_min].dropna(
     subset=[sc6_y, "listeners"]).copy()
@@ -730,13 +729,13 @@ if len(df_sc6) >= 5:
     m2.metric("Pearson r", f"{r6:.3f}")
     m3.metric("R²", f"{r2_6:.1%}")
     m4.metric("p-Wert", f"{p6:.4f}",
-              delta="signifikant ✅" if p6 < 0.05 else "nicht signifikant ⚠️",
+              delta="signifikant ✅" if p6 < 0.05 else "not signifikant ⚠️",
               delta_color="normal" if p6 < 0.05 else "inverse")
 
     df_sc6["x_plot"] = x_v.values
     df_sc6["y_plot"] = y_v.values
 
-    y_lbl_map = {"pct_capital": "% Capital Events", "pct_capital_cities": "% Capital Städte"}
+    y_lbl_map = {"pct_capital": "% Capital Events", "pct_capital_cities": "% Capital Cities"}
 
     coef = np.polyfit(df_sc6["x_plot"], df_sc6["y_plot"], 1)
     x_line = np.linspace(df_sc6["x_plot"].min(), df_sc6["x_plot"].max(), 200)
@@ -777,7 +776,7 @@ if len(df_sc6) >= 5:
     with sc6_2:
         st.plotly_chart(fig_sc6, use_container_width=True)
 
-    strength = "stark" if abs(r6) >= 0.7 else "moderat" if abs(r6) >= 0.4 else "schwach"
+    strength = "strong" if abs(r6) >= 0.7 else "moderate" if abs(r6) >= 0.4 else "weak"
 
     st.markdown(f"""
     <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
