@@ -1123,16 +1123,15 @@ st.markdown('<div class="section-title">📈 Graph 1 — Streaming Popularity vs
             unsafe_allow_html=True)
 
 st.markdown("""
-Each dot is one artist. The x-axis shows Last.fm listeners (log scale); the y-axis shows the listener-weighted geo-alignment score (0 = no overlap, 1 = perfect match).
-The regression line shows whether more popular artists tour more closely in line with where their fans are located.
+This scatterplot investigates whether more popular artists tour more closely in line with where their digital fanbase is located. The x-axis shows each artist's total Last.fm listener count on a log scale, and the y-axis shows their geo-alignment score — by default the listener-weighted coverage, which measures what proportion of an artist's global listener reach is covered by their tour countries. An OLS regression line captures the overall trend, and each dot can be coloured by a third variable such as tour countries or streaming reach.
 """)
 
 g1a, g1b = st.columns([1, 3])
 with g1a:
-    color_by = st.selectbox("Farbe nach",
+    color_by = st.selectbox("Color by",
                             ["n_tour_countries", "tour_coverage", "streaming_reach"],
                             format_func=lambda x: {
-                                "n_tour_countries": "Tour-Länder",
+                                "n_tour_countries": "Tour-Countries",
                                 "tour_coverage": "Tour Coverage",
                                 "streaming_reach": "Streaming Reach",
                             }[x], key="ga2_color")
@@ -1151,7 +1150,7 @@ y_line_g1 = np.polyval(coef_g1, x_line_g1)
 m1g1, m2g1, m3g1 = st.columns(3)
 m1g1.metric("n Artists", len(df_g1))
 m2g1.metric("Pearson r", f"{r_g1:.3f}")
-m3g1.metric("p-Wert", f"{p_g1:.4f}",
+m3g1.metric("p-Value", f"{p_g1:.4f}",
             delta="signifikant ✅" if p_g1 < 0.05 else "nicht signifikant ⚠️",
             delta_color="normal" if p_g1 < 0.05 else "inverse")
 
