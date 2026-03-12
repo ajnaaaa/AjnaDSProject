@@ -1445,35 +1445,78 @@ This graph gives a concrete, artist-level answer to Research Question 3 by makin
 
 st.divider()
 
-# ── Zusammenfassung ────────────────────────────────────────────────────────
-st.markdown('<div class="section-title">Zusammenfassung — Question 3: Geo-Alignment</div>',
+# ── Summary ────────────────────────────────────────────────────────────────
+st.markdown('<div class="section-title">Summary — Question 3: Geo-Alignment</div>',
             unsafe_allow_html=True)
 
+if mean_jac > 0.4:
+    jac_label = "Strong"
+    jac_text = "strong"
+elif mean_jac > 0.2:
+    jac_label = "Moderate"
+    jac_text = "moderate"
+else:
+    jac_label = "Weak"
+    jac_text = "weak"
+
+if r_g1 > 0:
+    pearson_direction = "positive relationship"
+else:
+    pearson_direction = "negative relationship"
+
+pearson_sig = "✅" if p_g1 < 0.05 else "⚠️ not significant"
+
 st.markdown(f"""
-| Metrik | Durchschnitt | Interpretation |
-|--------|-------------|----------------|
-| **Weighted Coverage** | {mean_wc:.1%} | Listener-Reichweite durch Tour abgedeckt |
-| **Jaccard-Similarity** | {mean_jac:.3f} | {"Starke" if mean_jac > 0.4 else "Moderate" if mean_jac > 0.2 else "Schwache"} Uebereinstimmung |
-| **Tour Coverage** | {mean_tc:.1%} | der Tour-Länder sind auch Streaming-Länder |
-| **Streaming Reach** | {mean_sr:.1%} | der Streaming-Länder werden betourt |
-| **Pearson r (Listeners vs Jaccard)** | {r_g1:.3f} | {"pos. Zusammenhang" if r_g1 > 0 else "neg. Zusammenhang"}  {"✅" if p_g1 < 0.05 else "⚠️ nicht signifikant"} |
+| Metric | Average | Note |
+|--------|---------|------|
+| **Weighted Coverage** | {mean_wc:.1%} | Share of listener reach covered by tour countries |
+| **Jaccard Similarity** | {mean_jac:.3f} | {jac_label} overlap between streaming and tour countries |
+| **Tour Coverage** | {mean_tc:.1%} | Share of tour countries that are also top streaming countries |
+| **Streaming Reach** | {mean_sr:.1%} | Share of streaming countries that are actually toured |
+| **Pearson r (Listeners vs. Weighted Coverage)** | {r_g1:.3f} | {pearson_direction} {pearson_sig} |
 """)
+
+if r_g1 > 0.1 and p_g1 < 0.05:
+    pearson_conclusion = (
+        "The significant positive correlation (r = " + f"{r_g1:.3f}" + ") suggests that more popular artists "
+        "are better at aligning their tours with where their listeners are — possibly because they have "
+        "more resources and data to plan tours around actual demand."
+    )
+elif r_g1 < -0.1 and p_g1 < 0.05:
+    pearson_conclusion = (
+        "The significant negative correlation (r = " + f"{r_g1:.3f}" + ") shows that more popular artists "
+        "actually cover a smaller share of their streaming markets through touring. "
+        "As artists grow in popularity, their fanbase spreads into more countries than their tours can realistically reach, "
+        "creating a widening gap between digital reach and live presence."
+    )
+else:
+    pearson_conclusion = (
+        "With r = " + f"{r_g1:.3f}" + " and p = " + f"{p_g1:.4f}" + ", there is no significant relationship "
+        "between an artist's popularity and how well their tour geography matches their streaming footprint. "
+        "Geo-alignment appears to be an individual characteristic rather than something driven by overall popularity."
+    )
+
+if mean_jac > 0.4:
+    jac_conclusion = "The average Jaccard similarity of " + f"{mean_jac:.3f}" + " indicates that, on average, artists tour in a strong share of the countries where they have significant listener presence."
+elif mean_jac > 0.2:
+    jac_conclusion = "The average Jaccard similarity of " + f"{mean_jac:.3f}" + " indicates a moderate overlap — artists do tour in many of their key streaming markets, but a notable share of those markets remains unreached by live performances."
+else:
+    jac_conclusion = "The average Jaccard similarity of " + f"{mean_jac:.3f}" + " reveals a weak overlap between streaming presence and touring geography — many countries where artists have significant listeners are never visited on tour."
 
 st.markdown(f"""
 <div class="insight-card">
-    <h4>🎯 Antwort auf Question 3</h4>
+    <h4>Answer to Research Question 3</h4>
     <p>
-    Ø Jaccard = <strong style="color:#818cf8">{mean_jac:.3f}</strong> —
-    {"Artists touren stark zielgruppenorientiert: wo sie auf Last.fm beliebt sind, spielen sie auch." if mean_jac > 0.4
-else "Eine moderate Ausrichtung: Tour und Streaming-Footprint überlappen sich teilweise, aber nicht vollständig."
-if mean_jac > 0.2
-else "Streaming-Popularität und Tour-Geografie sind weitgehend entkoppelt — viele ungenutzte Märkte."}
+    {jac_conclusion}
     <br><br>
-    Ø Tour Coverage = <strong style="color:#f59e0b">{mean_tc:.1%}</strong>:
-    Dieser Anteil der Tour-Länder ist durch Last.fm-Streaming-Popularität abgedeckt.
-    <br>
-    Ø Streaming Reach = <strong style="color:#10b981">{mean_sr:.1%}</strong>:
-    Dieser Anteil der Streaming-Länder wird auch tatsächlich betourt.
+    On average, <strong style="color:#f59e0b">{mean_tc:.1%}</strong> of an artist's tour countries
+    are also among their top streaming countries — meaning that the large majority of touring
+    does happen in markets where at least some listener base already exists.
+    However, only <strong style="color:#10b981">{mean_sr:.1%}</strong> of streaming countries
+    are actually visited on tour, which means that a significant share of listener markets
+    remain unreached by live performances.
+    <br><br>
+    {pearson_conclusion}
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -1481,12 +1524,13 @@ else "Streaming-Popularität und Tour-Geografie sind weitgehend entkoppelt — v
 st.markdown("""
 <div class="methodology-note">
     <p>
-    <strong>Methodische Anmerkung:</strong>
-    Streaming-Länder = Länder wo der Artist in Last.fm geo.getTopArtists (Top-50) erscheint.
-    Tour-Länder = Länder mit mindestens einem Ticketmaster-Event.
-    Jaccard-Similarity = |Streaming ∩ Tour| / |Streaming ∪ Tour|.
-    Methode robust gegen unterschiedliche Datensatzgrößen.
-    Nur Artists mit Daten in beiden Quellen eingeschlossen (n={n_artists}).
+    <strong>Methodological note:</strong>
+    Streaming countries are defined as countries where the artist appears in Last.fm's
+    geo.getTopArtists list (Top 50 per country).
+    Tour countries are defined as countries with at least one Ticketmaster event.
+    Jaccard Similarity is calculated as |Streaming ∩ Tour| / |Streaming ∪ Tour|,
+    making it robust to differences in dataset size across artists.
+    Only artists with data available in both sources are included in this analysis.
     </p>
 </div>
-""".replace("{n_artists}", str(n_artists)), unsafe_allow_html=True)
+""", unsafe_allow_html=True)
