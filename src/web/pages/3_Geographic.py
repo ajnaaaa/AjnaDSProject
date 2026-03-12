@@ -322,9 +322,9 @@ try:
         ))
     y_labels = {"pct_revisit_cities": "% Revisit-Städte",
                 "revisit_ratio": "Ratio (Revisit / New)",
-                "pct_events_revisit": "% Events in Revisit-Städten"}
+                "pct_events_revisit": "% Events in Revisit-Cities"}
     fig2.update_layout(
-        title=f"{y_labels[y_met]} nach Tour-Größe",
+        title=f"{y_labels[y_met]} by Tour-size",
         yaxis_title=y_labels[y_met],
         template="plotly_dark",
         paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
