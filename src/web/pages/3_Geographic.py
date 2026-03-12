@@ -468,9 +468,9 @@ r_s, p_s = stats.pearsonr(corr_tmp["pct_revisit_cities"], corr_tmp["total_events
 r2_s = r_s ** 2
 
 st.markdown(f"""
-| Metrik | Wert |
+| Metric | Value |
 |--------|------|
-| Analysed artists | {len(df_f4)} |
+| Analysed Artists | {len(df_f4)} |
 | Ø Revisit-Rate (% Cities) | {mean_pct:.1f}% |
 | Median Revisit-Rate | {median_pct:.1f}% |
 | Global Ratio (revisit / new) | {global_ratio:.3f} |
