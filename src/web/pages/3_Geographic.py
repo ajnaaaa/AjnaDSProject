@@ -653,7 +653,7 @@ try:
                    "pct_capital_cities": "Ø % Capital Cities",
                    "unique_capitals": "Ø Visited Capital Cities"}
     fig_b6.update_layout(
-        title=f"{y_label_map[bar_metric]} nach {groupby_col.replace('_', ' ').title()}-Tier",
+        title=f"{y_label_map[bar_metric]} by {groupby_col.replace('_', ' ').title()}-Tier",
         yaxis_title=y_label_map[bar_metric],
         xaxis_title=f"{groupby_col.replace('_', ' ').title()}-Group",
         template="plotly_dark",
