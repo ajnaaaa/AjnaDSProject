@@ -691,7 +691,7 @@ try:
         <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
         <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
         The results indicate that there is no meaningful difference across popularity tiers in the selected metric. The average values remain relatively similar between the lowest and highest tiers, suggesting that artist popularity does not strongly influence whether performances take place in capital cities or non-capital cities.
-        Overall, this implies that capital city preference is not primarily driven by audience size. Instead, other factors—such as venue availability, touring logistics, regional demand, or booking strategies—are likely to play a more important role in determining where artists perform.
+        Overall, this implies that capital city preference is not primarily driven by audience size. Instead, other factors—such as venue availability, touring logistics, regional demand, or booking strategies-are likely to play a more important role in determining where artists perform.
         </div>
         </div>
         """, unsafe_allow_html=True)
