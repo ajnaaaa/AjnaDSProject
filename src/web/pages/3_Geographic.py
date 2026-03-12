@@ -1265,17 +1265,25 @@ st.divider()
 # ══════════════════════════════════════════════════════════════════════════
 # GA2 — GRAPH 2: Balkendiagramm — alle 3 Metriken nach Popularity-Tier
 # ══════════════════════════════════════════════════════════════════════════
-st.markdown('<div class="section-title">📊 Graph 2 — All Three Alignment Metrics by Popularity Tier</div>',
+st.markdown('<div class="section-title">📊 Graph 2 — Geographic Alignment Between Streaming Audiences and Tour Locations</div>',
             unsafe_allow_html=True)
 
 st.markdown("""
-Artists are split into four popularity quartiles, and all three alignment metrics are shown side by side per tier.
-This reveals whether different dimensions of alignment (weighted coverage, Jaccard, tour coverage, streaming reach) behave consistently or diverge across popularity levels.
+This graph compares three geographic alignment metrics and one contextual streaming metric across artist popularity tiers based on Last.fm listener counts. Artists are divided into four equally sized groups (Q1–Q4), ranging from low popularity (Q1) to high popularity (Q4). Each bar shows the average value of a metric within that tier.
+
+The three metrics capture different dimensions of how well tour locations match streaming audiences:
+	•	Weighted Coverage (blue): Measures how many important streaming countries are actually visited on tour, giving more weight to countries with more listeners.
+	•	Jaccard Similarity (purple): Measures the overlap between the set of streaming countries and tour countries.
+	•	Tour Coverage (orange): Indicates how much of the streaming audience’s geographic distribution is covered by the tour.
+	•	Streaming Reach (green): Shows how internationally distributed the artist’s streaming audience is.
+
+By comparing these metrics across popularity tiers, the graph reveals how geographic alignment between streaming audiences and touring activity changes with artist popularity.
 """)
 
 df_g2 = ga.dropna(subset=["listeners", "jaccard"]).copy()
 df_g2["tier"] = pd.qcut(df_g2["listeners"], q=4,
-                        labels=["Q1\n(niedrig)", "Q2", "Q3", "Q4\n(hoch)"])
+                        labels=["Q1\n(Low)", "Q2\n(Low-mid)", "Q3 \n(Mid-high)", "Q4\n(High)"])
+
 
 tier_cols = [c for c in ["weighted_coverage", "jaccard", "tour_coverage", "streaming_reach"] if c in df_g2.columns]
 tier_stats = df_g2.groupby("tier", observed=True)[tier_cols].mean().reset_index()
@@ -1310,21 +1318,21 @@ kw_h = kw_p = None
 if len(kw_groups) >= 2:
     kw_h, kw_p = stats.kruskal(*kw_groups)
 
-title_g2 = "Geo-Alignment nach Popularity-Tier"
+title_g2 = "Geo-Alignment by Popularity Tier"
 if kw_p is not None:
     title_g2 += f"  |  Kruskal-Wallis H={kw_h:.1f}  p={kw_p:.3f}  {'✅' if kw_p < 0.05 else '⚠️'}"
 
 fig_g2.update_layout(
     title=title_g2,
     barmode="group",
-    xaxis_title="Popularity-Tier (nach Last.fm Listeners)",
-    yaxis_title="Durchschnittlicher Wert",
+    xaxis_title="Popularity Tier (based on Last.fm listeners)",
+    yaxis_title="Average value",
     template="plotly_dark",
     paper_bgcolor="#080b14", plot_bgcolor="#161c2d",
     font=dict(color="white"), height=400,
     xaxis=dict(gridcolor="#232840"),
     yaxis=dict(gridcolor="#232840", range=[0, 1]),
-    legend=dict(orientation="h", y=-0.2),
+    legend=dict(orientation="h", y=-0.35),
 )
 st.plotly_chart(fig_g2, use_container_width=True)
 
@@ -1332,8 +1340,11 @@ st.markdown(f"""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-{"Kruskal-Wallis H = <strong>" + f"{kw_h:.2f}" + "</strong>, p = <strong>" + f"{kw_p:.3f}" + "</strong> → <strong>" + ("Signifikant ✅" if kw_p < 0.05 else "Nicht signifikant ⚠️") + "</strong>. " if kw_h is not None else ""}
-If Tour Coverage (amber) is high across all tiers but Streaming Reach (green) is low for smaller artists, those artists tour within a small footprint that misses most of their streaming countries.
+A Kruskal–Wallis test was used to compare the alignment metrics across popularity tiers.
+	•	H = 10.16
+	•	p = 0.017
+
+Since p < 0.05, the differences between popularity tiers are statistically significant, meaning that geographic alignment varies meaningfully with artist popularity.
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -1342,7 +1353,9 @@ st.markdown("""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-A consistent upward trend across all four metrics from Q1 to Q4 would provide robust evidence for Research Question 3: more popular artists align their tours more closely with their streaming footprint. If metrics diverge, it signals that different dimensions of alignment behave independently — popular artists may tour in more streaming countries but still miss their largest listener markets.
+The graph suggests that smaller artists often show higher alignment between streaming audiences and tour locations, while larger artists tend to have lower alignment values. This likely occurs because smaller artists have more regionally concentrated audiences, making it easier for their tours to match where listeners are located.
+
+In contrast, highly popular artists often have global streaming audiences, but tours can only cover a limited number of countries. As a result, their geographic alignment metrics tend to be lower, even though their overall reach is much broader.
 </div>
 </div>
 """, unsafe_allow_html=True)
