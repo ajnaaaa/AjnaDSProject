@@ -1356,20 +1356,26 @@ st.markdown('<div class="section-title">🔥 Graph 3 — Best and Worst Aligned 
             unsafe_allow_html=True)
 
 st.markdown("""
-This chart shows the top or bottom N artists by alignment score, with three bars per artist: streaming countries (purple), tour countries (amber), and the aligned overlap (green).
-Toggle between best- and worst-aligned artists to identify which artists tour where their fans are — and which have a large gap between digital reach and live presence.
+This chart displays the best or worst aligned artists in the dataset, showing three bars side by side for each artist:
+- **Streaming Countries (purple)** — the number of countries where the artist appears in Last.fm's top artists list, meaning they have a significant listener presence there
+- **Tour Countries (amber)** — the number of countries where the artist has at least one Ticketmaster event
+- **Overlap (green)** — the number of countries that appear in both: countries where the artist both has listeners and actually performed
+
+The more the green bar dominates relative to the purple and amber bars, the better aligned the artist is.
+Use the selector on the left to switch between the best-aligned artists (those who tour closely where their fans are) and the worst-aligned artists (those with the largest gap between streaming presence and live touring).
+You can also change the sorting metric to rank artists by Weighted Coverage, Jaccard Similarity, Tour Coverage, or Streaming Reach.
 """)
 
 g3a, g3b = st.columns([1, 3])
 with g3a:
-    n_show = st.slider("Anzahl Artists", 5, 20, 10, key="ga2_n")
-    show_type = st.radio("Zeigen", ["Beste Ausrichtung", "Schlechteste Ausrichtung"], key="ga2_type")
-    sort_col = st.selectbox("Sortieren nach",
+    n_show = st.slider("Number of Artists", 5, 20, 10, key="ga2_n")
+    show_type = st.radio("Show", ["Best Aligned", "Worst Aligned"], key="ga2_type")
+    sort_col = st.selectbox("Sort by",
                             [c for c in ["weighted_coverage", "jaccard", "tour_coverage", "streaming_reach"] if c in ga.columns],
                             format_func=lambda x: metric_labels.get(x, x), key="ga2_sort")
 
 top_df = (ga.dropna(subset=["jaccard", "n_tour_countries", "n_streaming"])
-          .nlargest(n_show, sort_col) if show_type == "Beste Ausrichtung"
+          .nlargest(n_show, sort_col) if show_type == "Best Aligned"
           else ga.dropna(subset=["jaccard", "n_tour_countries", "n_streaming"])
           .nsmallest(n_show, sort_col))
 
@@ -1377,32 +1383,32 @@ fig_g3 = go.Figure()
 fig_g3.add_trace(go.Bar(
     y=top_df["artist_name"],
     x=top_df["n_streaming"],
-    name="Streaming-Länder (Last.fm)",
+    name="Streaming Countries (Last.fm)",
     orientation="h",
     marker_color="#6366f1",
-    hovertemplate="%{y}<br>Streaming: %{x} Länder<extra></extra>",
+    hovertemplate="%{y}<br>Streaming: %{x} countries<extra></extra>",
 ))
 fig_g3.add_trace(go.Bar(
     y=top_df["artist_name"],
     x=top_df["n_tour_countries"],
-    name="Tour-Länder (Ticketmaster)",
+    name="Tour Countries (Ticketmaster)",
     orientation="h",
     marker_color="#f59e0b",
-    hovertemplate="%{y}<br>Tour: %{x} Länder<extra></extra>",
+    hovertemplate="%{y}<br>Tour: %{x} countries<extra></extra>",
 ))
 fig_g3.add_trace(go.Bar(
     y=top_df["artist_name"],
     x=top_df["n_aligned"],
-    name="Ueberlappung",
+    name="Overlap",
     orientation="h",
     marker_color="#10b981",  # type: ignore
-    hovertemplate="%{y}<br>Aligned: %{x} Länder  Jaccard=%{customdata:.3f}<extra></extra>",
+    hovertemplate="%{y}<br>Aligned: %{x} countries  Jaccard=%{customdata:.3f}<extra></extra>",
     customdata=top_df["jaccard"],
 ))
 fig_g3.update_layout(
-    title=show_type + " — Streaming vs. Tour Länder",
+    title=show_type + " — Streaming vs. Tour Countries",
     barmode="group",
-    xaxis_title="Anzahl Länder",
+    xaxis_title="Number of Countries",
     template="plotly_dark",
     paper_bgcolor="#080b14", plot_bgcolor="#161c2d",
     font=dict(color="white"), height=max(300, n_show * 35),
@@ -1414,20 +1420,12 @@ with g3b:
     st.plotly_chart(fig_g3, use_container_width=True)
 
 st.markdown("""
-<div style="background:#080b14;border:1px solid #232840;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
-<div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
-<div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-Jaccard = green bar / (purple + amber − green). A large green bar relative to the other two = high alignment.
-For worst-aligned artists: if the purple bar (streaming) is much larger than amber (tour), the artist is globally streamed but tours regionally. If amber dominates, they tour broadly into markets with little streaming presence.
-</div>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-The best-aligned artists show that closing the gap between streaming reach and touring geography is achievable. The worst-aligned cases in Research Question 3 reveal two distinct mismatches — regional touring with global streaming, or expansive touring into markets without an established audience — each with different strategic implications.
+The best-aligned artists show a large green overlap bar relative to their purple and amber bars — meaning they actively perform in the countries where their streaming audience is strongest.
+For the worst-aligned artists, two distinct patterns emerge: if the purple bar (streaming) is much larger than the amber bar (tour), the artist has a globally spread fanbase but only tours regionally, leaving many listener markets completely unreached. If the amber bar dominates instead, the artist tours extensively into countries where they have little existing streaming presence, suggesting a deliberate strategy of building new audiences through live performance rather than serving existing ones.
+This graph gives a concrete, artist-level answer to Research Question 3 by making the gap — or alignment — between digital reach and live presence visible and comparable across artists.
 </div>
 </div>
 """, unsafe_allow_html=True)
