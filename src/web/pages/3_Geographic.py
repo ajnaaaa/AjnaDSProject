@@ -483,7 +483,7 @@ st.markdown(f"""
 
 st.markdown(f"""
 <div class="insight-card">
-    <h4>🎯 Antwort auf Question 1</h4>
+    <h4>🎯 Answer to Research Question 1</h4>
     <p>
     {On average, 15.2% of the cities artists visit are revisit cities. This means that artists return to only about one out of seven cities they have already played in.
 
