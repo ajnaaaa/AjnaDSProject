@@ -1123,7 +1123,16 @@ st.markdown('<div class="section-title">📈 Graph 1 — Streaming Popularity vs
             unsafe_allow_html=True)
 
 st.markdown("""
-This scatterplot investigates whether more popular artists tour more closely in line with where their digital fanbase is located. The x-axis shows each artist's total Last.fm listener count on a log scale, and the y-axis shows their geo-alignment score — by default the listener-weighted coverage, which measures what proportion of an artist's global listener reach is covered by their tour countries. An OLS regression line captures the overall trend, and each dot can be coloured by a third variable such as tour countries or streaming reach.
+This scatterplot investigates whether more popular artists tour more closely in line with where their digital fanbase is located. 
+The x-axis shows each artist's total Last.fm listener count on a log scale, and the y-axis shows their geo-alignment score — 
+by default the listener-weighted coverage, which measures what proportion of an artist's global listener reach is covered by their tour countries.
+A score of 1.0 means the artist performs in every country where they have significant listeners; a score of 0.0 means they tour in none of those countries.
+The OLS regression line captures the overall trend across all artists.
+
+The colour of each dot can be changed using the selector on the left:
+- **Tour Countries** — colours each artist by how many countries they toured in total
+- **Tour Coverage** — colours by what share of the artist's tour countries are also among their top streaming countries
+- **Streaming Reach** — colours by what share of the artist's streaming countries are actually toured
 """)
 
 g1a, g1b = st.columns([1, 3])
@@ -1131,7 +1140,7 @@ with g1a:
     color_by = st.selectbox("Color by",
                             ["n_tour_countries", "tour_coverage", "streaming_reach"],
                             format_func=lambda x: {
-                                "n_tour_countries": "Tour-Countries",
+                                "n_tour_countries": "Tour Countries",
                                 "tour_coverage": "Tour Coverage",
                                 "streaming_reach": "Streaming Reach",
                             }[x], key="ga2_color")
@@ -1151,7 +1160,7 @@ m1g1, m2g1, m3g1 = st.columns(3)
 m1g1.metric("n Artists", len(df_g1))
 m2g1.metric("Pearson r", f"{r_g1:.3f}")
 m3g1.metric("p-Value", f"{p_g1:.4f}",
-            delta="signifikant ✅" if p_g1 < 0.05 else "nicht signifikant ⚠️",
+            delta="significant ✅" if p_g1 < 0.05 else "not significant ⚠️",
             delta_color="normal" if p_g1 < 0.05 else "inverse")
 
 fig_g1 = px.scatter(
@@ -1172,7 +1181,7 @@ fig_g1 = px.scatter(
     labels={
         "log_listeners": "log10(Last.fm Listeners)",
         GA2_Y: GA2_Y_LABEL,
-        "n_tour_countries": "Tour-Länder",
+        "n_tour_countries": "Tour Countries",
     },
     title=f"Listeners vs. {GA2_Y_LABEL}  |  r = {r_g1:.3f}  |  n = {len(df_g1)}",
     template="plotly_dark",
@@ -1205,23 +1214,39 @@ sig_sentence = (
     "This result is not statistically significant — the observed pattern could easily be due to chance in a sample of this size."
 )
 direction_sentence = (
-    "A positive r confirms that as listener counts increase, artists tend to tour more closely where their fans are located."
+    "A positive r indicates that more popular artists tend to have a higher geo-alignment score — meaning they tour more closely in line with where their listeners are."
     if r_g1 > 0 else
-    "A negative r means that as listener counts increase, artists tend to tour in more countries beyond their core streaming markets."
+    "A negative r indicates that more popular artists tend to have a lower geo-alignment score — meaning that despite having more listeners, they cover a smaller share of their streaming markets through touring."
 )
 if r_g1 > 0.1 and p_g1 < 0.05:
-    interpretation_g1 = "More popular artists tour more closely to where their streaming fanbase is located, suggesting that booking decisions are at least partly driven by where demand already exists."
+    interpretation_g1 = (
+        "More popular artists cover a greater share of their streaming markets through touring — "
+        "suggesting that as artists grow in popularity, their touring routes increasingly follow "
+        "where their listener demand is strongest."
+    )
 elif r_g1 < -0.1 and p_g1 < 0.05:
-    interpretation_g1 = "More popular artists tend to tour in a broader set of countries than their core streaming markets, suggesting they actively use touring to reach audiences in new regions."
+    interpretation_g1 = (
+        "Despite having larger and more widespread streaming audiences, more popular artists "
+        "actually cover a smaller share of their streaming markets through touring. "
+        "This suggests that as artists grow in popularity, their fanbase expands into more countries "
+        "than their tours can realistically reach — leaving a growing gap between digital reach and live presence."
+    )
 else:
-    interpretation_g1 = "Streaming popularity does not predict how well an artist's tour geography matches their streaming footprint — geo-alignment appears to be shaped by other factors such as region, booking strategy, or touring infrastructure."
+    interpretation_g1 = (
+        "There is no meaningful relationship between how popular an artist is and how well "
+        "their tour geography matches their streaming footprint. "
+        "Some highly popular artists cover their streaming markets very well through touring, "
+        "while others do not — and the same variation exists among smaller artists. "
+        "How well an artist reaches their streaming audience through live shows appears to be "
+        "an individual decision rather than something driven by overall popularity."
+    )
 
 st.markdown(f"""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
 Pearson r = <strong>{r_g1:.3f}</strong>, p = <strong>{p_g1:.4f}</strong> — <strong>{sig_label}</strong>.
-Pearson r measures how strongly streaming popularity and geo-alignment are linearly related — a value close to 0 means there is almost no relationship between the two variables.
+Pearson r measures how strongly streaming popularity and geo-alignment are linearly related — a value close to 0 indicates almost no relationship, while values closer to 1 or -1 indicate a stronger one.
 {direction_sentence} {sig_sentence}
 </div>
 </div>
@@ -1231,13 +1256,12 @@ st.markdown(f"""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-{interpretation_g1} This is a central finding for Research Question 3, as it reveals whether digital audience reach and physical touring presence are connected or largely independent of one another.
+{interpretation_g1}
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 st.divider()
-
 # ══════════════════════════════════════════════════════════════════════════
 # GA2 — GRAPH 2: Balkendiagramm — alle 3 Metriken nach Popularity-Tier
 # ══════════════════════════════════════════════════════════════════════════
