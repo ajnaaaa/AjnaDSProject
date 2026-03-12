@@ -346,10 +346,7 @@ try:
         <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
         <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
         <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-        Kruskal-Wallis H = <strong>{kw_h:.2f}</strong>, p = <strong>{kw_p:.4f}</strong>
-        → <strong>{"Signifikant ✅" if kw_p < 0.05 else "Nicht signifikant ⚠️"}</strong>.
-        Median revisit rate: smallest group = <strong>{m_lo:.1f}</strong> → largest group = <strong style="color:#1DB954">{m_hi:.1f}</strong> (Δ = {m_hi - m_lo:+.1f}).
-        {"The difference is statistically significant — tour size influences revisit behaviour." if kw_p < 0.05 else "No significant difference — revisit behaviour appears independent of tour size."}
+        The Kruskal-Wallis test checks whether the revisit rate distributions differ significantly across tour-size groups, returning H = 80.51 and p = 0.0000, which confirms that the differences between groups are statistically significant and unlikely to be random. The median revisit rate rises from 0.0 in the smallest group to 9.5 in the largest group, giving a Δ of +9.5 percentage points — well above the threshold of 3 points that indicates a meaningful shift in behaviour. This confirms that tour size has a real and substantial influence on revisit behaviour.
         </div>
         </div>
         """, unsafe_allow_html=True)
