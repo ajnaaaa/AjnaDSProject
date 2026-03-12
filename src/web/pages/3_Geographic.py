@@ -282,21 +282,19 @@ st.markdown('<div class="section-title">📦 Graph 2 — Revisit Rate by Tour Si
             unsafe_allow_html=True)
 
 st.markdown("""
-Artists are grouped by tour size (number of events), and the distribution of revisit rate is shown per group as a box plot.
-Each box shows the median and spread; outliers appear as individual dots.
-Look for a rising median from small to large tour groups — this would confirm that bigger tours favour familiar cities.
+This box plot divides artists into groups based on their total number of tour events — from small to very large — and shows the distribution of the revisit rate within each group. The horizontal line inside each box marks the median, while the box itself spans the middle 50% of artists. The goal is to test whether larger tours tend to have higher revisit rates, supporting the idea that bigger artists prefer safe, proven markets.
 """)
 
 b1, b2 = st.columns([1, 3])
 with b1:
-    n_grp = st.select_slider("Gruppen", [3, 4, 5], value=4, key="f4b_ng")
+    n_grp = st.select_slider("Groups", [3, 4, 5], value=4, key="f4b_ng")
     y_met = st.radio("Y-Achse",
                      ["pct_revisit_cities", "revisit_ratio", "pct_events_revisit"],
                      index=0, key="f4b_y",
                      format_func=lambda x: {
-                         "pct_revisit_cities": "% Revisit-Städte",
+                         "pct_revisit_cities": "% Revisit-Cities",
                          "revisit_ratio": "Ratio (R/N)",
-                         "pct_events_revisit": "% Events in Revisit-Städten"}[x])
+                         "pct_events_revisit": "% Events in Revisit-Cities"}[x])
 
 df_bx = df_f4.dropna(subset=[y_met, "total_events"]).copy()
 G_LBLS = {3: ["Klein", "Mittel", "Groß"],
