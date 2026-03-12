@@ -541,7 +541,7 @@ if f6_missing:
     st.stop()
 
 st.markdown("""
-**Definitionen**
+**Definitions**
 
 | Term | Meaning |
 |---------|-----------|
