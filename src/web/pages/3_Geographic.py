@@ -375,13 +375,17 @@ This horizontal bar chart ranks cities by their total number of artist visits ac
 """)
 
 if city_df is not None:
+    # Fix Problem 2: Leerzeichen entfernen vor dem Gruppieren
+    city_df["city"] = city_df["city"].str.strip()
+    city_df["country"] = city_df["country"].str.strip()
+
     c1, c2 = st.columns([1, 3])
     with c1:
         top_n = st.slider("Top N Cities", 10, 40, 20, key="f4c_n")
         col_metric = st.radio("Color by",
                               ["Total Visits", "Number of Artists", "Capital city?"],
                               index=0, key="f4c_col")
-        min_art = st.slider("Minimum-Artists", 1, 10, 2, key="f4c_ma")
+        min_art = st.slider("Minimum Artists", 1, 10, 2, key="f4c_ma")
 
     city_agg = (
         city_df.groupby(["city", "country"])
@@ -398,14 +402,16 @@ if city_df is not None:
                       color="total_visits", color_continuous_scale="YlGn",
                       hover_data={"city": False, "country": True, "total_visits": True,
                                   "n_artists": True, "is_capital": True},
-                      labels={"total_visits": "Visits", "city": ""},
+                      labels={"total_visits": "Visits", "city": "", "n_artists": "Artists",
+                              "country": "Country", "is_capital": "Capital"},
                       template="plotly_dark")
     elif col_metric == "Number of Artists":
         fig3 = px.bar(city_top, x="total_visits", y="city", orientation="h",
                       color="n_artists", color_continuous_scale="Blues",
                       hover_data={"city": False, "country": True, "total_visits": True,
                                   "n_artists": True},
-                      labels={"total_visits": "Visits", "city": "", "n_artists": "Artists"},
+                      labels={"total_visits": "Visits", "city": "", "n_artists": "Artists",
+                              "country": "Country"},
                       template="plotly_dark")
     else:
         city_top["cap_label"] = city_top["is_capital"].apply(
@@ -415,14 +421,16 @@ if city_df is not None:
                       color="cap_label",
                       color_discrete_map={"Capital city": "#1DB954", "Non-Capital city": "#4a4a4a"},
                       hover_data={"city": False, "country": True, "total_visits": True},
-                      labels={"total_visits": "Visits", "city": "", "cap_label": ""},
+                      labels={"total_visits": "Visits", "city": "", "cap_label": "Type",
+                              "country": "Country"},
                       template="plotly_dark")
 
     fig3.update_layout(
         height=max(360, top_n * 22),
         paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
         font=dict(color="white"),
-        xaxis=dict(gridcolor="#333"), yaxis=dict(gridcolor="#333"),
+        xaxis=dict(gridcolor="#333", title="Visits"),
+        yaxis=dict(gridcolor="#333"),
         title=f"Top {top_n} most visited cities (min. {min_art} Artists)",
     )
     with c2:
