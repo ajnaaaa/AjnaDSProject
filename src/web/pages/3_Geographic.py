@@ -593,37 +593,37 @@ st.divider()
 # ══════════════════════════════════════════════════════════════════════════
 # Q2 — GRAPH 1: Balkendiagramm pct_capital nach Listeners-Gruppe
 # ══════════════════════════════════════════════════════════════════════════
-st.markdown('<div class="section-title">📊 Graph 1 — Average Capital City Share by Artist Popularity Tier</div>',
+st.markdown('<div class="section-title">📊 Graph 1 — Average share of Capital City Performances by Popularity Tier</div>',
             unsafe_allow_html=True)
 
 st.markdown("""
-Artists are split into popularity tiers by Last.fm listeners or tour size, and the average capital-city metric is shown per tier.
-Look for a rising trend from left (low popularity) to right (high popularity) — this would confirm the hypothesis.
+Artists are grouped into popularity tiers based on their number of Last.fm listeners or tour size. The bar chart shows the average share of performances taking place in capital cities for each group.
+If more popular artists consistently played a larger share of concerts in capital cities, we would expect the bars to increase from left to right. However, the pattern appears relatively mixed, suggesting that artist popularity may not strongly determine whether performances take place in capital cities or non-capital cities
 """)
 
 g1, g2 = st.columns([1, 3])
 with g1:
-    n_tiers_f6 = st.select_slider("Anzahl Gruppen", [3, 4, 5], value=4, key="f6b_nt")
-    bar_metric = st.radio("Metrik",
+    n_tiers_f6 = st.select_slider("Number of Tiers", [3, 4, 5], value=4, key="f6b_nt")
+    bar_metric = st.radio("Metric",
                           ["pct_capital", "pct_capital_cities", "unique_capitals"],
                           index=0, key="f6b_m",
                           format_func=lambda x: {
                               "pct_capital": "% Capital Events",
-                              "pct_capital_cities": "% Capital Städte",
-                              "unique_capitals": "Ø Hauptstädte besucht"}[x])
-    groupby_col = st.radio("Gruppiert nach",
+                              "pct_capital_cities": "% Capital Cities",
+                              "unique_capitals": "Ø Visited Capital Cities"}[x])
+    groupby_col = st.radio("Group by",
                            ["listeners", "total_events"],
                            index=0, key="f6b_gc",
-                           format_func=lambda x: {"listeners": "Listeners", "total_events": "Tour-Größe"}[x])
+                           format_func=lambda x: {"listeners": "Listeners", "total_events": "Tour-Scale"}[x])
 
 df_b6 = df_f6.dropna(subset=[bar_metric, groupby_col]).copy()
 df_b6[groupby_col] = pd.to_numeric(df_b6[groupby_col], errors="coerce")
 df_b6 = df_b6.dropna(subset=[groupby_col])
 
 g_lbls_f6 = {
-    3: ["Niedrig", "Mittel", "Hoch"],
-    4: ["Q1 Niedrig", "Q2", "Q3", "Q4 Hoch"],
-    5: ["Q1", "Q2", "Q3", "Q4", "Q5 Hoch"],
+    3: ["Low", "Middle", "High"],
+    4: ["Q1 Low", "Q2", "Q3", "Q4 High"],
+    5: ["Q1 Low", "Q2", "Q3", "Q4", "Q5 High"],
 }[n_tiers_f6]
 G_COLORS_F6 = ["#4a4a4a", "#7fb3d3", "#1a9850", "#1DB954", "#52BE80"][:n_tiers_f6]
 
@@ -644,18 +644,18 @@ try:
         customdata=grp6[["median", "n"]].values,
         hovertemplate=(
             "<b>%{x}</b><br>"
-            "Mittelwert: %{y:.1f}<br>"
+            "Mean: %{y:.1f}<br>"
             "Median: %{customdata[0]:.1f}<br>"
             "n Artists: %{customdata[1]}<extra></extra>"
         )
     ))
     y_label_map = {"pct_capital": "Ø % Capital Events",
-                   "pct_capital_cities": "Ø % Capital Städte",
-                   "unique_capitals": "Ø Hauptstädte besucht"}
+                   "pct_capital_cities": "Ø % Capital Cities",
+                   "unique_capitals": "Ø Visited Capital Cities"}
     fig_b6.update_layout(
         title=f"{y_label_map[bar_metric]} nach {groupby_col.replace('_', ' ').title()}-Tier",
         yaxis_title=y_label_map[bar_metric],
-        xaxis_title=f"{groupby_col.replace('_', ' ').title()}-Gruppe",
+        xaxis_title=f"{groupby_col.replace('_', ' ').title()}-Group",
         template="plotly_dark",
         paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
         font=dict(color="white"), height=400,
@@ -677,9 +677,11 @@ try:
         <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
         <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
         Kruskal-Wallis H = <strong>{kw_h:.2f}</strong>, p = <strong>{kw_p:.4f}</strong>
-        → <strong>{"Signifikant ✅" if kw_p < 0.05 else "Nicht signifikant ⚠️"}</strong>.
+        → <strong>{"Significant" if kw_p < 0.05 else "Not significant"}</strong>.
         {y_label_map[bar_metric]}: lowest tier = <strong>{m_lo:.1f}</strong> → highest tier = <strong style="color:#1DB954">{m_hi:.1f}</strong> (Δ = {m_hi - m_lo:+.1f}).
-        Bar labels show the mean per tier; hover reveals the median.
+        The Kruskal–Wallis test examines whether the selected metric differs across the popularity tiers. A p-value above 0.05 indicates that the observed differences between the groups are not statistically significant.
+        The average metric values remain relatively similar across tiers, with the lowest tier at {m_lo:.1f} and the highest tier at {m_hi:.1f} (Δ = {m_hi - m_lo:+.1f}). This small difference suggests that popularity does not meaningfully influence this touring pattern.
+        Overall, the results indicate that capital city preference is not strongly driven by audience size, and other factors such as tour logistics, venue availability, or regional demand may play a larger role.
         </div>
         </div>
         """, unsafe_allow_html=True)
@@ -688,18 +690,16 @@ try:
         <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
         <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
         <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-        {"More popular artists concentrate more of their shows in capital cities — supporting the hypothesis for Research Question 2." if m_hi > m_lo + 3 and kw_p < 0.05
-        else "More popular artists spread more into non-capital cities — larger tours require a broader geography beyond capitals." if m_lo > m_hi + 3 and kw_p < 0.05
-        else "No meaningful difference across popularity tiers — capital city preference is not driven by audience size in Research Question 2."}
+        The results indicate that there is no meaningful difference across popularity tiers in the selected metric. The average values remain relatively similar between the lowest and highest tiers, suggesting that artist popularity does not strongly influence whether performances take place in capital cities or non-capital cities.
+        Overall, this implies that capital city preference is not primarily driven by audience size. Instead, other factors—such as venue availability, touring logistics, regional demand, or booking strategies—are likely to play a more important role in determining where artists perform.
         </div>
         </div>
         """, unsafe_allow_html=True)
 except Exception as e:
     with g2:
-        st.warning(f"Fehler: {e}")
+        st.warning(f"Error: {e}")
 
 st.divider()
-
 # ══════════════════════════════════════════════════════════════════════════
 # Q2 — GRAPH 2: Scatterplot pct_capital vs Listeners
 # ══════════════════════════════════════════════════════════════════════════
