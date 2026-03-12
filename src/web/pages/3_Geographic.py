@@ -543,21 +543,20 @@ if f6_missing:
 st.markdown("""
 **Definitionen**
 
-| Begriff | Bedeutung |
+| Term | Meaning |
 |---------|-----------|
-| **Capital Event** | Konzert in einer Hauptstadt (klassifiziert via RestCountries API) |
-| **pct_capital** | Capital Events / Total Events × 100 — misst **Anteil am Konzertvolumen** |
-| **pct_capital_cities** | Einzigartige Hauptstädte / Alle einzigartigen Städte × 100 — misst **geografische Breite** |
-| **capital_ratio** | Capital Events / Non-Capital Events — wie viele Nicht-Hauptstadtshows pro Hauptstadtshow |
-| **unique_capitals** | Anzahl verschiedener Hauptstädte die ein Artist bereist |
+| **Capital Event** | Concert in a capital city (classified using the RestCountries API) |
+| **pct_capital** | Capital Events / Total Events × 100 - measures the share of the total concert volume |
+| **pct_capital_cities** | Unique capital cities / all unique cities × 100 — measures geographic breadth |
+| **capital_ratio** | Capital Events / Non-Capital Events - indicates how many non-capital shows occur per capital show |
+| **unique_capitals** | Number of different capital cities an artist visits |
 
-**Warum zwei Metriken (pct_capital vs. pct_capital_cities)?**
-Ein Artist der dreimal in Berlin und einmal in München spielt hat
-`pct_capital = 75%` aber `pct_capital_cities = 50%`.
-Beide Perspektiven sind relevant — Volumen vs. geografische Strategie.
+**Why two metrics (pct_capital vs. pct_capital_cities)?**
+An artist who performs three times in Berlin and once in Munich has
+pct_capital = 75% but pct_capital_cities = 50%.
+Both perspectives are relevant - one reflects performance volume, while the other captures geographic strategy.
 
-**Hypothese:** Populärere Artists (mehr Listeners) spielen anteilig öfter in Hauptstädten —
-weil Hauptstädte größere Venues, mehr Presseaufmerksamkeit und dichteren Fanmarkt bieten.
+**Hypothesis**: More popular artists (with a higher number of listeners) perform proportionally more often in capital cities, as capitals typically offer larger venues, greater media exposure, and a denser fan base.
 """)
 
 # Daten vorbereiten
