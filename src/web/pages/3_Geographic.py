@@ -30,6 +30,161 @@ apply_glossary_styles()
 
 # ── Header ────────────────────────────────────────────────────────────────
 st.markdown("""
+<div class="page-header">
+    <h1>🗺️ Geographic Analysis</h1>
+    <p>Analysing touring patterns: revisit cities, capital preferences, and alignment between streaming reach and tour geography.</p>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div style="background:#121A2B;border:1px solid #27324A;border-radius:14px;
+    padding:24px 28px;margin-bottom:28px; box-shadow:0 8px 24px rgba(0,0,0,.22);">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;
+        letter-spacing:.12em;color:#7C89A3 !important;margin-bottom:14px;">
+        Inhaltsübersicht — Forschungsfragen
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="#geo-frage-1" style="display:flex;align-items:flex-start;gap:12px;
+            text-decoration:none;padding:12px 14px;border-radius:10px;
+            background:#182235;border:1px solid #27324A;
+            transition:all .2s ease;">
+            <span style="background:#2A1F4D;color:#EDE9FE !important;border-radius:50%;
+                width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+                font-size:.75rem;font-weight:700;flex-shrink:0;border:1px solid #5B46A8;">1</span>
+            <span style="color:#D7E0F0 !important;font-size:.9rem;line-height:1.45;">
+                What is the ratio of revisit cities to new cities on an artist's current tour?
+            </span>
+        </a>
+        <a href="#geo-frage-2" style="display:flex;align-items:flex-start;gap:12px;
+            text-decoration:none;padding:12px 14px;border-radius:10px;
+            background:#182235;border:1px solid #27324A;
+            transition:all .2s ease;">
+            <span style="background:#2A1F4D;color:#EDE9FE !important;border-radius:50%;
+                width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+                font-size:.75rem;font-weight:700;flex-shrink:0;border:1px solid #5B46A8;">2</span>
+            <span style="color:#D7E0F0 !important;font-size:.9rem;line-height:1.45;">
+                What proportion of an artist's performances take place in capital cities compared to non-capital cities?
+            </span>
+        </a>
+        <a href="#geo-frage-3" style="display:flex;align-items:flex-start;gap:12px;
+            text-decoration:none;padding:12px 14px;border-radius:10px;
+            background:#201A3A;border:1px solid #5B46A8;
+            box-shadow:0 0 0 1px rgba(139,92,246,.08) inset;
+            transition:all .2s ease;">
+            <span style="background:#8B5CF6;color:white !important;border-radius:50%;
+                width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+                font-size:.75rem;font-weight:700;flex-shrink:0;">3</span>
+            <span style="color:#F3F0FF !important;font-size:.9rem;line-height:1.45;">
+                How well do the countries where an artist has the highest listener reach on Last.fm align with the countries where they perform on their Ticketmaster tour?
+            </span>
+        </a>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown('<div id="geo-frage-1"></div>', unsafe_allow_html=True)
+
+
+# ── Daten laden ────────────────────────────────────────────────────────────
+@st.cache_data
+def load_data():
+    f1 = "data/processed/final_dataset.csv"
+    f2 = "data/processed/f4_city_frequencies.csv"
+    if not os.path.exists(f1):
+        return None, None
+    df = pd.read_csv(f1)
+    for col in ["revisit_cities", "new_cities", "pct_revisit_cities",
+                "revisit_ratio", "pct_events_revisit", "total_events",
+                "listeners", "pct_capital"]:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    city_df = pd.read_csv(f2) if os.path.exists(f2) else None
+    return df, city_df
+
+
+df, city_df = load_data()
+
+if df is None:
+    st.error("⚠️  `data/processed/final_dataset.csv` nicht gefunden.")
+    st.code("python scripts/join_data.py")
+    st.stop()
+
+F4_COLS = ["revisit_cities", "new_cities", "pct_revisit_cities", "revisit_ratio", "pct_events_revisit"]
+if any(c not in df.columns for c in F4_COLS):
+    st.error(f"⚠️  Daten für Frage 1 fehlen — `join_data.py` ausführen.")
+    st.code("python scripts/join_data.py")
+    st.stop()
+
+df_f4 = df.dropna(subset=["revisit_cities", "new_cities"]).copy()
+
+# Globale Kennzahlen
+total_rev = df_f4["revisit_cities"].sum()
+total_new = df_f4["new_cities"].sum()
+total_cities = total_rev + total_new
+global_ratio = total_rev / total_new if total_new > 0 else 0
+global_pct = total_rev / total_cities * 100 if total_cities > 0 else 0
+mean_pct = df_f4["pct_revisit_cities"].mean()
+median_pct = df_f4["pct_revisit_cities"].median()
+
+# ── Sidebar ────────────────────────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("## 🗺️ Geographic Analysis")
+    st.divider()
+    st.markdown("**▶ Q1 — Revisit vs New Cities**")
+    st.markdown("F5 — Genre Density 300km")
+    st.markdown("Q2 — Capital vs Non-Capital")
+    st.divider()
+    st.metric("Künstler gesamt", len(df))
+    st.metric("mit Daten", len(df_f4))
+    if city_df is not None:
+        n_cities = city_df["city"].nunique()
+        st.metric("Einzigartige Städte", n_cities)
+    st.divider()
+    st.markdown("**Graphs auf dieser Seite**")
+    st.markdown("📈 Scatterplot · 📊 Balken · 📦 Boxplot · 🌡️ Heatmap · 🔍 Detail")
+
+# ══════════════════════════════════════════════════════════════════════════
+# RESEARCH QUESTION 1
+# ══════════════════════════════════════════════════════════════════════════
+st.markdown("""
+<div class="rq-box">
+    <h3>🗺️ Research Question 1</h3>
+    <p>What is the ratio of revisit cities to new cities on an artist's current tour?</p>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+**Definitionen**
+
+| Begriff | Bedeutung |
+|---------|-----------|
+| **New City** | Stadt die der Artist im Beobachtungszeitraum genau **1×** besucht |
+| **Revisit City** | Stadt die der Artist **≥ 2×** besucht |
+| **pct_revisit_cities** | Anteil Revisit-Städte an allen bereisten Städten (%) |
+| **revisit_ratio** | Revisit-Städte / New-Städte (Verhältnis) |
+| **pct_events_revisit** | Anteil aller Events die in Revisit-Städten stattfinden (%) — i.d.R. höher als pct_revisit, da diese Städte mehrfach zählen |
+
+**Hypothese:** Künstler mit größeren Touren kehren anteilig öfter in bewährte Städte zurück
+— sie optimieren auf sichere Märkte. Kleinere Artists erkunden breitere geografische Gebiete.
+""")
+
+# KPIs
+st.divider()
+k1, k2, k3, k4, k5 = st.columns(5)
+k1.metric("Ø Revisit-Rate", f"{mean_pct:.1f}%", delta=f"Median {median_pct:.1f}%")
+k2.metric("Globaler Ratio", f"{global_ratio:.2f}", delta="revisit / new")
+k3.metric("Total Revisit Cities", f"{total_rev:.0f}")
+k4.metric("Total New Cities", f"{total_new:.0f}")
+k5.metric("% des Tourings = Revisit", f"{global_pct:.1f}%")
+st.divider()
+
+# ══════════════════════════════════════════════════════════════════════════
+# GRAPH 1 — Scatterplot Revisit vs. New Cities
+# ══════════════════════════════════════════════════════════════════════════
+st.markdown('<div class="section-title">📈 Graph 1 — Scatterplot: Revisit vs. New Cities per Artist</div>',
+            unsafe_allow_html=True)
+
+st.markdown("""
 <div style="background:#0f1829;border:1px solid #1e2d45;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#7C89A3;margin-bottom:10px;">📋 Graph Explanation</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;"><p style="margin:0 0 10px 0;">This scatterplot visualises the touring geography of each artist by comparing the number of<br>new cities (x-axis) against the number of revisit cities (y-axis) on their tour.<br>Each dot represents one artist. The dashed diagonal line marks a ratio of 1:1 — meaning<br>an artist revisits exactly as many cities as they visit for the first time.<br>Artists plotted <strong>above</strong> the diagonal line revisit more cities than they explore new ones,<br>suggesting a strategy focused on proven, established markets.<br>Artists plotted <strong>below</strong> the line visit more new cities than they return to,<br>indicating a broader geographical expansion approach.<br>The colour of each dot can be adjusted to encode a third variable — total number of events,<br>percentage of revisit cities, or total Last.fm listeners — allowing additional patterns<br>to be explored visually.<br>This graph directly contributes to answering Research Question 1 by showing at a glance<br>whether artists tend to favour familiar markets or actively explore new territory.</p></div>
