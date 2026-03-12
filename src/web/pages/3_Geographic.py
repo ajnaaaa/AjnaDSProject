@@ -1040,11 +1040,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-**Idee:** Wenn ein Artist in Deutschland sehr beliebt auf Last.fm ist, tourt er dann auch
-tatsächlich in Deutschland? Oder gibt es Artists die digital in einem Land gross sind,
-aber nie dort auftreten?
+**Hypothesis:** Artists tend to perform in countries where they have the highest listener counts on Last.fm.
 
-**3 Kennzahlen messen die Uebereinstimmung:**
+**3 Metrics measure the agreement:**
 """)
 
 c1, c2, c3 = st.columns(3)
@@ -1053,7 +1051,8 @@ with c1:
     <div class="insight-card">
         <h4>📐 Jaccard-Similarity</h4>
         <p>Ueberlappung der Top-10 Streaming-Länder (nach Listeners)
-        mit den Tour-Ländern. 0 = kein Match · 1 = perfekt.</p>
+        mit den Tour-Ländern.
+        <p>U0 = kein Match · 1 = perfekt.</p>
     </div>""", unsafe_allow_html=True)
 with c2:
     st.markdown("""
