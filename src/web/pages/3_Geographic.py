@@ -401,7 +401,7 @@ if city_df is not None:
                                   "n_artists": True, "is_capital": True},
                       labels={"total_visits": "Visits", "city": ""},
                       template="plotly_dark")
-    elif col_metric == "Number of artists":
+    elif col_metric == "Number of Artists":
         fig3 = px.bar(city_top, x="total_visits", y="city", orientation="h",
                       color="n_artists", color_continuous_scale="Blues",
                       hover_data={"city": False, "country": True, "total_visits": True,
