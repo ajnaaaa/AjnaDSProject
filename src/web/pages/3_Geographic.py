@@ -1534,6 +1534,7 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+<br><br>
 
 st.markdown("""
 <div class="insight-card">
