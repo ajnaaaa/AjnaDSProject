@@ -32,19 +32,7 @@ if os.path.exists(data_path):
 else:
     n_artists = n_events = n_countries = avg_listen = "—"
 
-# ══════════════════════════════════════════════════════════════════════════
-# KEY METRICS
-# ══════════════════════════════════════════════════════════════════════════
-m1, m2, m3, m4 = st.columns(4)
-for col, val, label in [
-    (m1, n_artists, "Artists Analysed"),
-    (m2, n_events, "Concert Events"),
-    (m3, n_countries, "Countries Covered"),
-    (m4, avg_listen, "Avg. Last.fm Listeners"),
-]:
-    col.metric(label, val)
 
-st.markdown("<br>", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════
 # WHAT WE INVESTIGATE
