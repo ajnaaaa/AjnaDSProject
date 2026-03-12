@@ -483,7 +483,7 @@ st.markdown(f"""
 
 st.markdown(f"""
 <div class="insight-card">
-    <h4>🎯 Antwort auf Question 1</h4>
+    <h4>🎯 Summary — Research Question 1: Revisit Cities</h4>
     <p>
     On average, 15.2% of the cities artists visit are revisit cities. This means that artists return to only about one out of seven cities they have already played in.
     The global ratio of 0.16 supports this pattern: for every new city an artist visits, there are only 0.16 cities that they revisit. This shows that geographic expansion is the main touring strategy, meaning that artists usually prefer to perform in new cities rather than returning to the same ones.
