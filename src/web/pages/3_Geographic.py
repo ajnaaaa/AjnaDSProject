@@ -901,9 +901,9 @@ st.divider()
 # ══════════════════════════════════════════════════════════════════════════
 # Q2 — ARTIST DETAIL
 # ══════════════════════════════════════════════════════════════════════════
-st.markdown('<div class="section-title">🔍 Artist Detail — Hauptstadt-Profil</div>',
+st.markdown('<div class="section-title">🔍 Artist Detail — Capital City Profile</div>',
             unsafe_allow_html=True)
-st.markdown("Welche Hauptstädte bereist ein Artist — und wie oft?")
+st.markdown("Which capital cities an artists has visited and how often?")
 
 if cap_per_artist is not None:
     art_list6 = sorted(df_f6["artist_name"].dropna().unique().tolist())
@@ -924,15 +924,15 @@ if cap_per_artist is not None:
         d2.metric("Capital Events", int(r6d["capital_events"]))
         d3.metric("Non-Capital Events", int(r6d["non_capital_events"]))
         d4.metric("% Capital", f"{r6d['pct_capital']:.1f}%")
-        d5.metric("Hauptstädte besucht", int(r6d["unique_capitals"]))
+        d5.metric("Capitals visited", int(r6d["unique_capitals"]))
 
     if len(art_caps) > 0:
         fig_det6 = px.bar(
             art_caps, x="city", y="visits",
             hover_data={"city": True, "country": True, "visits": True},
             color="visits", color_continuous_scale="YlGn",
-            labels={"visits": "Besuche", "city": "Hauptstadt"},
-            title=f"{sel_art6} — Hauptstadtbesuche",
+            labels={"visits": "Visits", "city": "Capital city"},
+            title=f"{sel_art6} — Capital city visits",
             template="plotly_dark",
         )
         fig_det6.update_layout(
@@ -944,7 +944,7 @@ if cap_per_artist is not None:
         )
         st.plotly_chart(fig_det6, use_container_width=True)
     else:
-        st.info(f"{sel_art6} hat keine Hauptstadtkonzerte im Dataset.")
+        st.info(f"{sel_art6} has no concerts in the dataset.")
 else:
     st.info("⚠️  `f6_capitals_per_artist.csv` fehlt.")
 
