@@ -372,19 +372,17 @@ st.markdown('<div class="section-title">📊 Graph 3 — Most Visited Cities Acr
             unsafe_allow_html=True)
 
 st.markdown("""
-This chart ranks cities by total artist visits across the full dataset.
-Bar colour can be switched to show number of distinct artists or capital city status.
-Look for whether the most visited cities are capitals or major economic centres.
+This horizontal bar chart ranks cities by their total number of artist visits across the entire dataset, showing which cities function as the central hubs of live music activity. The colour encoding can be switched to show the number of distinct artists who performed there, or to highlight which cities are national capitals. A minimum artist threshold filters out cities that only appear in a single artist's data, ensuring the results reflect genuinely shared touring destinations.
 """)
 
 if city_df is not None:
     c1, c2 = st.columns([1, 3])
     with c1:
-        top_n = st.slider("Top N Städte", 10, 40, 20, key="f4c_n")
+        top_n = st.slider("Top N Cities", 10, 40, 20, key="f4c_n")
         col_metric = st.radio("Farbe nach",
-                              ["Besuche gesamt", "Anzahl Artists", "Hauptstadt?"],
+                              ["Total Visits", "Number of Artists", "Capital city?"],
                               index=0, key="f4c_col")
-        min_art = st.slider("Mindest-Artists", 1, 10, 2, key="f4c_ma")
+        min_art = st.slider("Minimum-Artists", 1, 10, 2, key="f4c_ma")
 
     city_agg = (
         city_df.groupby(["city", "country"])
@@ -396,19 +394,19 @@ if city_df is not None:
     city_agg = city_agg[city_agg["n_artists"] >= min_art]
     city_top = city_agg.nlargest(top_n, "total_visits").sort_values("total_visits")
 
-    if col_metric == "Besuche gesamt":
+    if col_metric == "Total Visits":
         fig3 = px.bar(city_top, x="total_visits", y="city", orientation="h",
                       color="total_visits", color_continuous_scale="YlGn",
                       hover_data={"city": False, "country": True, "total_visits": True,
                                   "n_artists": True, "is_capital": True},
-                      labels={"total_visits": "Besuche", "city": ""},
+                      labels={"total_visits": "Visits", "city": ""},
                       template="plotly_dark")
-    elif col_metric == "Anzahl Artists":
+    elif col_metric == "Number of artists":
         fig3 = px.bar(city_top, x="total_visits", y="city", orientation="h",
                       color="n_artists", color_continuous_scale="Blues",
                       hover_data={"city": False, "country": True, "total_visits": True,
                                   "n_artists": True},
-                      labels={"total_visits": "Besuche", "city": "", "n_artists": "Artists"},
+                      labels={"total_visits": "Visits", "city": "", "n_artists": "Artists"},
                       template="plotly_dark")
     else:
         city_top["cap_label"] = city_top["is_capital"].map({1: "Hauptstadt", 0: "Nicht-Hauptstadt",
