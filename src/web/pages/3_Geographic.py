@@ -975,25 +975,30 @@ st.markdown(f"""
 | p-Wert | {f'{p6_s:.4f}' if p6_s is not None else 'n/a'} |
 """)
 if r6_s is not None:
-    strength6 = "stark" if abs(r6_s) >= 0.7 else "moderat" if abs(r6_s) >= 0.4 else "schwach"
+    strength6 = "strong" if abs(r6_s) >= 0.7 else "moderate" if abs(r6_s) >= 0.4 else "weak"
+    
+    if r6_s > 0.2 and p6_s < 0.05:
+        popularity_conclusion = "More popular artists tend to concentrate their shows in capital cities."
+    elif r6_s < -0.2 and p6_s < 0.05:
+        popularity_conclusion = "More popular artists tour more broadly — their capital share is actually lower."
+    else:
+        popularity_conclusion = "Streaming popularity is not a meaningful driver of capital-city share — touring decisions appear to be shaped by other factors such as region, genre, or booking strategy."
+
+    sig_text = "statistically significant ✅" if p6_s < 0.05 else "not statistically significant ⚠️"
+
     st.markdown(f"""
     <div class="insight-card">
-        <h4>🎯 Antwort auf Question 2</h4>
+        <h4>🎯 Answer to Research Question 2</h4>
         <p>
-        Im Durchschnitt finden <strong style="color:#1DB954">{mean_pct:.1f}%</strong>
-        aller Konzerte in Hauptstädten statt — global über alle Artists.
-        Jeder Artist besucht im Schnitt
-        <strong style="color:#1DB954">{df_f6['unique_capitals'].mean():.1f}</strong>
-        verschiedene Hauptstädte.
+        On average, <strong style="color:#1DB954">{mean_pct:.1f}%</strong> of all concerts 
+        take place in capital cities, and each artist visits an average of 
+        <strong style="color:#1DB954">{df_f6['unique_capitals'].mean():.1f}</strong> different capitals.
+        However, this share is heavily driven by a small number of dominant hubs — 
+        particularly London, Berlin, and Dublin — rather than a general preference for capitals across all countries.
         <br><br>
-        Der Zusammenhang zwischen Popularität (Last.fm Listeners) und Capital-Anteil
-        ist <strong>{strength6}</strong> (r = {r6_s:.3f},
-        {"signifikant ✅" if p6_s < 0.05 else "nicht signifikant ⚠️"}).
-        {
-    " Populärere Artists konzentrieren sich stärker auf Hauptstädte." if r6_s > 0.2 and p6_s < 0.05
-    else " Populärere Artists bereisen breitere Märkte — ihr Capital-Anteil ist niedriger." if r6_s < -0.2 and p6_s < 0.05
-    else " Popularität ist kein wesentlicher Treiber des Capital-Anteils."
-    }
+        The relationship between streaming popularity (Last.fm listeners) and capital-city share 
+        is <strong>{strength6}</strong> (r = {r6_s:.3f}, {sig_text}).
+        {popularity_conclusion}
         </p>
     </div>
     """, unsafe_allow_html=True)
