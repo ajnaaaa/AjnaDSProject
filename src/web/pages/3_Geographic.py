@@ -470,15 +470,15 @@ r2_s = r_s ** 2
 st.markdown(f"""
 | Metrik | Wert |
 |--------|------|
-| Analysierte Artists | {len(df_f4)} |
-| Ø Revisit-Rate (% Städte) | {mean_pct:.1f}% |
+| Analysed artists | {len(df_f4)} |
+| Ø Revisit-Rate (% Cities) | {mean_pct:.1f}% |
 | Median Revisit-Rate | {median_pct:.1f}% |
-| Globaler Ratio (revisit / new) | {global_ratio:.3f} |
-| % aller Tourings = Revisit | {global_pct:.1f}% |
+| Global Ratio (revisit / new) | {global_ratio:.3f} |
+| % of all Tourings = Revisit | {global_pct:.1f}% |
 | Pearson r (% Revisit vs. Events) | {r_s:.3f} |
 | R² | {r2_s:.1%} |
-| p-Wert | {p_s:.4f} |
-| Signifikant | {'Ja ✅' if p_s < 0.05 else 'Nein ⚠️'} |
+| p-Value | {p_s:.4f} |
+| Signifikant | {'Yes ✅' if p_s < 0.05 else 'No ⚠️'} |
 """)
 
 st.markdown(f"""
