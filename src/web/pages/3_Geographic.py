@@ -882,28 +882,13 @@ if cap_global is not None and len(cap_global) > 0:
     most_diverse = cap_global_clean.nlargest(1, "n_artists").iloc[0]
 
     st.markdown(f"""
-    <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
-    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
-    <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-    The top 3 most-visited capital cities are <strong style="color:#1DB954">{", ".join(top3)}</strong>.
-    The capital visited by the most distinct artists is <strong>{most_diverse['city']}</strong>,
-    attracting <strong>{int(most_diverse['n_artists'])}</strong> different artists
-    with <strong>{int(most_diverse['total_visits'])}</strong> total visits.
-    A steep drop-off in bar length after the top 3–5 cities indicates that the overall capital share
-    is driven by a small number of dominant hubs rather than a broad preference for capitals in general.
-    </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
     <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
     <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
     <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-    If only a handful of cities account for the majority of capital visits, artists are not drawn
-    to capitals in general — they are drawn to the world's most commercially important music hubs.
-    This is an important nuance for Research Question 2: the high overall capital share may be
-    explained by a few dominant cities like Berlin or Amsterdam, rather than a systematic
-    preference for capital cities across all countries.
+    The top 3 most-visited capital cities are <strong style="color:#1DB954">{", ".join(top3)}</strong>, 
+    with {most_diverse['city']} attracting the most distinct artists ({int(most_diverse['n_artists'])} artists, {int(most_diverse['total_visits'])} total visits).
+    The steep drop-off after the top 3–5 cities shows that artists are not drawn to capitals in general — 
+    they concentrate in a few commercially dominant music hubs, which is a key nuance for answering Research Question 2.
     </div>
     </div>
     """, unsafe_allow_html=True)
