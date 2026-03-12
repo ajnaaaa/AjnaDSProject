@@ -820,29 +820,40 @@ st.markdown('<div class="section-title">📊 Graph 3 — Most Visited Capital Ci
             unsafe_allow_html=True)
 
 st.markdown("""
-This chart ranks capital cities only by total concert visits across all artists.
-Switch the colour to "Number of Artists" to see which capitals attract the broadest cross-artist interest versus being driven by one or two prolific tourers.
+This chart ranks capital cities by the total number of artist visits across all artists in the dataset.
+Each bar represents one capital city — the longer the bar, the more artists performed there.
+Look for whether the ranking is dominated by a few mega-hubs or distributed more evenly across many capitals.
 """)
 
 if cap_global is not None and len(cap_global) > 0:
+
+    # ── Daten bereinigen ───────────────────────────────────────────────
+    cap_global_clean = cap_global.copy()
+    cap_global_clean["city"] = cap_global_clean["city"].astype(str).str.strip()
+    cap_global_clean = cap_global_clean[
+        (cap_global_clean["city"] != "") &
+        (cap_global_clean["city"].str.lower() != "nan") &
+        (cap_global_clean["city"].notna())
+    ]
+    cap_global_clean["total_visits"] = pd.to_numeric(cap_global_clean["total_visits"], errors="coerce")
+    cap_global_clean["n_artists"] = pd.to_numeric(cap_global_clean["n_artists"], errors="coerce")
+    cap_global_clean = cap_global_clean.dropna(subset=["total_visits", "city"])
+
     h1, h2 = st.columns([1, 3])
     with h1:
-        top_n_h = st.slider("Top N Hauptstädte", 10, 30, 20, key="f6h_n")
-        h_color = st.radio("Farbe",
-                           ["Besuche gesamt", "Anzahl Artists"],
-                           index=0, key="f6h_col")
+        top_n_h = st.slider("Top N Capitals", 10, 30, 20, key="f6h_n")
 
-    cap_top = cap_global.nlargest(top_n_h, "total_visits").sort_values("total_visits")
+    cap_top = cap_global_clean.nlargest(top_n_h, "total_visits").sort_values("total_visits")
 
     fig_h = px.bar(
         cap_top,
         x="total_visits", y="city", orientation="h",
-        color="total_visits" if h_color == "Besuche gesamt" else "n_artists",
+        color="total_visits",
         color_continuous_scale="YlGn",
         hover_data={"city": False, "country": True,
                     "total_visits": True, "n_artists": True},
-        labels={"total_visits": "Besuche gesamt", "city": "", "n_artists": "Anzahl Artists"},
-        title=f"Top {top_n_h} Hauptstädte nach Konzertbesuchen",
+        labels={"total_visits": "Total Visits", "city": ""},
+        title=f"Top {top_n_h} Most Visited Capital Cities",
         template="plotly_dark",
     )
     fig_h.update_layout(
@@ -850,22 +861,24 @@ if cap_global is not None and len(cap_global) > 0:
         paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
         font=dict(color="white"),
         xaxis=dict(gridcolor="#333"), yaxis=dict(gridcolor="#333"),
-        coloraxis_colorbar=dict(title="Besuche" if h_color == "Besuche gesamt" else "Artists"),
+        coloraxis_colorbar=dict(title="Visits"),
     )
     with h2:
         st.plotly_chart(fig_h, use_container_width=True)
 
     top3 = cap_top.nlargest(3, "total_visits")["city"].tolist()
-    most_diverse = cap_global.nlargest(1, "n_artists").iloc[0]
+    most_diverse = cap_global_clean.nlargest(1, "n_artists").iloc[0]
 
     st.markdown(f"""
     <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
     <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
     <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-    Top 3 most-visited capitals: <strong style="color:#1DB954">{", ".join(top3)}</strong>.
-    Most cross-artist capital: <strong>{most_diverse['city']}</strong>
-    ({int(most_diverse['n_artists'])} distinct artists, {int(most_diverse['total_visits'])} total visits).
-    A steep drop-off after the top cities means a small number of mega-hubs drive the overall capital share.
+    The top 3 most-visited capital cities are <strong style="color:#1DB954">{", ".join(top3)}</strong>.
+    The capital visited by the most distinct artists is <strong>{most_diverse['city']}</strong>,
+    attracting <strong>{int(most_diverse['n_artists'])}</strong> different artists
+    with <strong>{int(most_diverse['total_visits'])}</strong> total visits.
+    A steep drop-off in bar length after the top 3–5 cities indicates that the overall capital share
+    is driven by a small number of dominant hubs rather than a broad preference for capitals in general.
     </div>
     </div>
     """, unsafe_allow_html=True)
@@ -874,12 +887,17 @@ if cap_global is not None and len(cap_global) > 0:
     <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
     <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
     <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-    If the ranking is dominated by 3–5 cities, the high overall capital share in Research Question 2 is driven by a handful of commercially dominant hubs, not a general preference for capitals. A gradual decline would suggest a broader, genuine preference for capital cities across many countries.
+    If only a handful of cities account for the majority of capital visits, artists are not drawn
+    to capitals in general — they are drawn to the world's most commercially important music hubs.
+    This is an important nuance for Research Question 2: the high overall capital share may be
+    explained by a few dominant cities like Berlin or Amsterdam, rather than a systematic
+    preference for capital cities across all countries.
     </div>
     </div>
     """, unsafe_allow_html=True)
+
 else:
-    st.info("⚠️  `f6_capitals_visited.csv` fehlt — `join_data.py` ausführen.")
+    st.info("⚠️  `f6_capitals_visited.csv` not found — run `join_data.py`.")
 
 st.divider()
 
