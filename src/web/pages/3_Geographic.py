@@ -496,11 +496,9 @@ st.markdown(f"""
 st.markdown("""
 <div class="methodology-note">
     <p>
-    <strong>Methodische Anmerkung:</strong>
-    "Revisit City" = Stadt die im Ticketmaster-Datensatz (2022–2026) ≥ 2 Events
-    eines Artists enthält. Städte werden über den Städtenamen identifiziert (nicht Venue).
-    Mehrere Konzerte am selben Tag in der gleichen Stadt zählen als separate Events.
-    Events ohne Städteangabe werden ausgeschlossen.
+    <strong>Methodological Note:</strong>
+    A “Revisit City” is defined as a city where the Ticketmaster dataset (2022–2026) records two or more events by the same artist. Cities are identified by city name only, not by venue. 
+    If an artist performs multiple concerts in the same city on the same day, these are counted as separate events. Events without a city name are excluded from the analysis.
     </p>
 </div>
 """, unsafe_allow_html=True)
