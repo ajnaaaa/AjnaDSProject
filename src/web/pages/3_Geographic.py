@@ -487,18 +487,8 @@ st.markdown(f"""
     <p>
     On average, 15.2% of the cities artists visit are revisit cities. This means that artists return to only about one out of seven cities they have already played in.
     The global ratio of 0.16 supports this pattern: for every new city an artist visits, there are only 0.16 cities that they revisit. This shows that geographic expansion is the main touring strategy, meaning that artists usually prefer to perform in new cities rather than returning to the same ones.
-    However, there is a positive relationship between tour size and the revisit rate (r = 0.212). This suggests that larger artists are more likely to return to cities where they have already performed successfully. In other words, the bigger the tour, the stronger the tendency to revisit known markets, while smaller artists explore more new cities.
     <br><br>
-    {
-f"Tour-Größe und Revisit-Rate korrelieren <strong>positiv</strong> (r = {r_s:.3f}) — "
-"größere Touren setzen stärker auf bewährte Märkte."
-if r_s > 0.15 and p_s < 0.05 else
-f"Tour-Größe und Revisit-Rate korrelieren <strong>negativ</strong> (r = {r_s:.3f}) — "
-"größere Touren erschließen proportional mehr neue Märkte."
-if r_s < -0.15 and p_s < 0.05 else
-f"Tour-Größe und Revisit-Rate korrelieren kaum (r = {r_s:.3f}) — "
-"die Neigung Städte zu revisiten ist unabhängig von der Tour-Größe."
-}
+    However, there is a positive relationship between tour size and the revisit rate (r = 0.212). This suggests that larger artists are more likely to return to cities where they have already performed successfully. In other words, the bigger the tour, the stronger the tendency to revisit known markets, while smaller artists explore more new cities.
     </p>
 </div>
 """, unsafe_allow_html=True)
