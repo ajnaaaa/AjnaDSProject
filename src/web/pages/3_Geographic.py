@@ -320,7 +320,7 @@ try:
             boxpoints="outliers",
             marker=dict(size=5, opacity=0.7),
         ))
-    y_labels = {"pct_revisit_cities": "% Revisit-Städte",
+    y_labels = {"pct_revisit_cities": "% Revisit-Cities",
                 "revisit_ratio": "Ratio (Revisit / New)",
                 "pct_events_revisit": "% Events in Revisit-Cities"}
     fig2.update_layout(
