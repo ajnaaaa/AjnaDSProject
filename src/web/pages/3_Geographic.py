@@ -888,7 +888,7 @@ if cap_global is not None and len(cap_global) > 0:
     The top 3 most-visited capital cities are <strong style="color:#1DB954">{", ".join(top3)}</strong>, 
     with {most_diverse['city']} attracting the most distinct artists ({int(most_diverse['n_artists'])} artists, {int(most_diverse['total_visits'])} total visits).
     The steep drop-off after the top 3–5 cities shows that artists are not drawn to capitals in general — 
-    they concentrate in a few commercially dominant music hubs, which is a key nuance for answering Research Question 2.
+    they concentrate in a few commercially dominant music hubs.
     </div>
     </div>
     """, unsafe_allow_html=True)
