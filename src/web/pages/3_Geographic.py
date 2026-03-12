@@ -297,9 +297,9 @@ with b1:
                          "pct_events_revisit": "% Events in Revisit-Cities"}[x])
 
 df_bx = df_f4.dropna(subset=[y_met, "total_events"]).copy()
-G_LBLS = {3: ["Klein", "Mittel", "Groß"],
-          4: ["Klein", "Mittel", "Groß", "Sehr groß"],
-          5: ["Mini", "Klein", "Mittel", "Groß", "Sehr groß"]}[n_grp]
+G_LBLS = {3: ["Small", "Middle", "Large"],
+          4: ["Small", "Middle", "Large", "Very Large"],
+          5: ["Mini", "Small", "Middle", "Large", "Very Large"]}[n_grp]
 G_COLORS = ["#2e86c1", "#1a9850", "#1DB954", "#52BE80", "#A9DFBF"]
 
 try:
