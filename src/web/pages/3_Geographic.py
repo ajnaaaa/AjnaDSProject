@@ -247,16 +247,6 @@ if len(df_s) > 0:
     below = int((df_s["revisit_cities"] < df_s["new_cities"]).sum())
     equal = int((df_s["revisit_cities"] == df_s["new_cities"]).sum())
     n = len(df_s)
-    st.markdown(f"""
-    <div class="insight-card">
-        <h4>📐 Verteilung um ratio = 1</h4>
-        <p>
-        <strong style="color:#1DB954">{above} Artists ({above / n * 100:.0f}%)</strong> revisiten mehr als sie neue Städte bereisen (oberhalb der Linie) &nbsp;|&nbsp;
-        <strong>{equal} ({equal / n * 100:.0f}%)</strong> gleich viele &nbsp;|&nbsp;
-        <strong style="color:#e05050">{below} ({below / n * 100:.0f}%)</strong> bereisen mehr neue Städte
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
 else:
     with s2:
         st.warning("Keine Daten nach Filter.")
