@@ -1534,3 +1534,27 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+<div class="insight-card">
+    <h4>🎯 Answer to Research Question 2</h4>
+    <p>
+    <strong>Do artists prefer to perform in capital cities?</strong>
+    <br><br>
+    Yes — but only partially, and driven by a small number of dominant cities.
+    On average, artists hold around <strong style="color:#1DB954">30% of their concerts in capital cities</strong>,
+    which is notably high given that capitals represent only a fraction of all cities worldwide.
+    <br><br>
+    However, this figure is heavily influenced by a handful of major music hubs —
+    particularly <strong>London, Berlin, and Dublin</strong> — which alone account for
+    a disproportionate share of all capital city concerts across the dataset.
+    When these cities are dominant, it suggests artists are not drawn to capitals in general,
+    but rather to the world's most commercially important live music markets.
+    <br><br>
+    Interestingly, an artist's streaming popularity on Last.fm does <strong>not</strong>
+    predict how much they perform in capitals (r = -0.047, p = 0.49).
+    This means the preference for capital cities is consistent across both large and small artists —
+    it appears to be a structural feature of the live music industry rather than a popularity-driven strategy.
+    </p>
+</div>
+""", unsafe_allow_html=True)
