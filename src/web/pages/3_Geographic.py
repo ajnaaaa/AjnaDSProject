@@ -1197,28 +1197,42 @@ fig_g1.update_layout(
 with g1b:
     st.plotly_chart(fig_g1, use_container_width=True)
 
+# ── Texte vorbereiten ──────────────────────────────────────────────────────
+sig_label = "significant ✅" if p_g1 < 0.05 else "not significant ⚠️"
+sig_sentence = (
+    "This result is statistically significant — the relationship is unlikely to have occurred by chance."
+    if p_g1 < 0.05 else
+    "This result is not statistically significant — the observed pattern could easily be due to chance in a sample of this size."
+)
+direction_sentence = (
+    "A positive r confirms that as listener counts increase, artists tend to tour more closely where their fans are located."
+    if r_g1 > 0 else
+    "A negative r means that as listener counts increase, artists tend to tour in more countries beyond their core streaming markets."
+)
+if r_g1 > 0.1 and p_g1 < 0.05:
+    interpretation_g1 = "More popular artists tour more closely to where their streaming fanbase is located, suggesting that booking decisions are at least partly driven by where demand already exists."
+elif r_g1 < -0.1 and p_g1 < 0.05:
+    interpretation_g1 = "More popular artists tend to tour in a broader set of countries than their core streaming markets, suggesting they actively use touring to reach audiences in new regions."
+else:
+    interpretation_g1 = "Streaming popularity does not predict how well an artist's tour geography matches their streaming footprint — geo-alignment appears to be shaped by other factors such as region, booking strategy, or touring infrastructure."
+
 st.markdown(f"""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-Pearson r = <strong>{r_g1:.3f}</strong>, p = <strong>{p_g1:.4f}</strong>
-→ <strong>{"signifikant ✅" if p_g1 < 0.05 else "nicht signifikant ⚠️"}</strong>.
-{"A positive slope means more popular artists align their tours more closely with their streaming footprint." if r_g1 > 0 else "A negative slope means more popular artists tour more broadly, beyond their established streaming markets."}
+Pearson r = <strong>{r_g1:.3f}</strong>, p = <strong>{p_g1:.4f}</strong> — <strong>{sig_label}</strong>.
+Pearson r measures how strongly streaming popularity and geo-alignment are linearly related — a value close to 0 means there is almost no relationship between the two variables.
+{direction_sentence} {sig_sentence}
 </div>
 </div>
 """, unsafe_allow_html=True)
 
-interpretation_g1 = (
-    "More popular artists tour more closely to where their fans are — suggesting data-driven or demand-driven booking decisions. This directly supports Research Question 3."
-    if r_g1 > 0.1 and p_g1 < 0.05 else
-    "More popular artists tour beyond their streaming footprint — they actively enter new markets rather than serving existing audiences. This challenges the expected pattern in Research Question 3."
-    if r_g1 < -0.1 and p_g1 < 0.05 else
-    "No significant relationship — geo-alignment is independent of popularity, suggesting touring geography in Research Question 3 is driven by factors other than streaming demand."
-)
 st.markdown(f"""
 <div style="background:#080b14;border:1px solid #232840;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
-<div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">{interpretation_g1}</div>
+<div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
+{interpretation_g1} This is a central finding for Research Question 3, as it reveals whether digital audience reach and physical touring presence are connected or largely independent of one another.
+</div>
 </div>
 """, unsafe_allow_html=True)
 
