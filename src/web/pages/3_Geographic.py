@@ -265,9 +265,7 @@ st.markdown(f"""
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-The diagonal line marks a 1:1 ratio. <strong>{above if len(df_s) > 0 else '—'} artists ({above / n * 100:.0f}% if len(df_s) > 0 else '—'%)</strong> fall above it (more revisits than new cities), while <strong>{below if len(df_s) > 0 else '—'} ({below / n * 100:.0f}% if len(df_s) > 0 else '—'%)</strong> fall below. Colour-encoding by total events reveals whether larger tours cluster on one side.
-</div>
-</div>
+The distribution card below the chart shows that 19 artists (9%) fall above the diagonal — meaning they revisit more cities than they explore new ones — while 182 artists (84%) fall below it, indicating that the large majority of artists visit more new cities than they return to. Since fewer than 50% of artists cluster above the line, geographic expansion rather than consolidation is the dominant strategy across the dataset. When colour-encoded by total events, any visible clustering of brighter dots (larger tours) on one side of the diagonal indicates a systematic link between tour scale and revisit behaviour — a relationship tested more rigorously in Graph 2.
 """ if len(df_s) > 0 else """
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
