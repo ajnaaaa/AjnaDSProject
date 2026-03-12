@@ -409,13 +409,13 @@ if city_df is not None:
                       labels={"total_visits": "Visits", "city": "", "n_artists": "Artists"},
                       template="plotly_dark")
     else:
-        city_top["cap_label"] = city_top["is_capital"].map({1: "Hauptstadt", 0: "Nicht-Hauptstadt",
-                                                            True: "Hauptstadt", False: "Nicht-Hauptstadt"})
+        city_top["cap_label"] = city_top["is_capital"].map({1: "Capital city", 0: "Non-Capital city",
+                                                            True: "Capital city", False: "Non-Capital city"})
         fig3 = px.bar(city_top, x="total_visits", y="city", orientation="h",
                       color="cap_label",
-                      color_discrete_map={"Hauptstadt": "#1DB954", "Nicht-Hauptstadt": "#4a4a4a"},
+                      color_discrete_map={"Capital city": "#1DB954", "Non-Capital city": "#4a4a4a"},
                       hover_data={"city": False, "country": True, "total_visits": True},
-                      labels={"total_visits": "Besuche", "city": "", "cap_label": ""},
+                      labels={"total_visits": "Visits", "city": "", "cap_label": ""},
                       template="plotly_dark")
 
     fig3.update_layout(
