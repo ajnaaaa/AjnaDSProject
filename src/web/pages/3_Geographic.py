@@ -260,7 +260,6 @@ The distribution card below the chart shows that 19 artists (9%) fall above the 
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-The diagonal line marks a 1:1 ratio. Artists above it revisit more cities than they explore new ones. The distribution card shows the exact percentage split across the full dataset.
 </div>
 </div>
 """, unsafe_allow_html=True)
