@@ -829,7 +829,8 @@ if cap_global is not None and len(cap_global) > 0:
 
     # ── Daten bereinigen ───────────────────────────────────────────────
     cap_global_clean = cap_global.copy()
-    cap_global_clean["city"] = cap_global_clean["city"].astype(str).str.strip()
+    cap_global_clean["city"] = cap_global_clean["city"].astype(str).str.strip().str.title()
+    cap_global_clean["country"] = cap_global_clean["country"].astype(str).str.strip()
     cap_global_clean = cap_global_clean[
         (cap_global_clean["city"] != "") &
         (cap_global_clean["city"].str.lower() != "nan") &
@@ -838,6 +839,17 @@ if cap_global is not None and len(cap_global) > 0:
     cap_global_clean["total_visits"] = pd.to_numeric(cap_global_clean["total_visits"], errors="coerce")
     cap_global_clean["n_artists"] = pd.to_numeric(cap_global_clean["n_artists"], errors="coerce")
     cap_global_clean = cap_global_clean.dropna(subset=["total_visits", "city"])
+
+    # ── Duplikate zusammenführen ───────────────────────────────────────
+    cap_global_clean = (
+        cap_global_clean
+        .groupby("city", as_index=False)
+        .agg(
+            total_visits=("total_visits", "sum"),
+            n_artists=("n_artists", "sum"),
+            country=("country", "first")
+        )
+    )
 
     h1, h2 = st.columns([1, 3])
     with h1:
