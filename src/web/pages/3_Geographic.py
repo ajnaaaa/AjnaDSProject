@@ -63,15 +63,14 @@ st.markdown("""
                 What proportion of an artist's performances take place in capital cities compared to non-capital cities?
             </span>
         </a>
-        <a href="#geo-frage-3" style="display:flex;align-items:flex-start;gap:12px;
+        <a href="#geo-frage-2" style="display:flex;align-items:flex-start;gap:12px;
             text-decoration:none;padding:12px 14px;border-radius:10px;
-            background:#201A3A;border:1px solid #5B46A8;
-            box-shadow:0 0 0 1px rgba(139,92,246,.08) inset;
+            background:#182235;border:1px solid #27324A;
             transition:all .2s ease;">
-            <span style="background:#8B5CF6;color:white !important;border-radius:50%;
+            <span style="background:#2A1F4D;color:#EDE9FE !important;border-radius:50%;
                 width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-                font-size:.75rem;font-weight:700;flex-shrink:0;">3</span>
-            <span style="color:#F3F0FF !important;font-size:.9rem;line-height:1.45;">
+                font-size:.75rem;font-weight:700;flex-shrink:0;border:1px solid #5B46A8;">3</span>
+            <span style="color:#D7E0F0 !important;font-size:.9rem;line-height:1.45;">
                 How well do the countries where an artist has the highest listener reach on Last.fm align with the countries where they perform on their Ticketmaster tour?
             </span>
         </a>
