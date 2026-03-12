@@ -884,6 +884,58 @@ else:
 st.divider()
 
 # ══════════════════════════════════════════════════════════════════════════
+# Q2 — ARTIST DETAIL
+# ══════════════════════════════════════════════════════════════════════════
+st.markdown('<div class="section-title">🔍 Artist Detail — Hauptstadt-Profil</div>',
+            unsafe_allow_html=True)
+st.markdown("Welche Hauptstädte bereist ein Artist — und wie oft?")
+
+if cap_per_artist is not None:
+    art_list6 = sorted(df_f6["artist_name"].dropna().unique().tolist())
+    def_art6 = (df_f6.loc[df_f6["pct_capital"].idxmax(), "artist_name"]
+                if len(df_f6) > 0 else art_list6[0])
+    def_idx6 = art_list6.index(def_art6) if def_art6 in art_list6 else 0
+    sel_art6 = st.selectbox("Artist", options=art_list6,
+                            index=def_idx6, key="f6_detail")
+
+    art_row6 = df_f6[df_f6["artist_name"] == sel_art6]
+    art_caps = cap_per_artist[cap_per_artist["artist_name"] == sel_art6].sort_values(
+        "visits", ascending=False)
+
+    if len(art_row6) > 0:
+        r6d = art_row6.iloc[0]
+        d1, d2, d3, d4, d5 = st.columns(5)
+        d1.metric("Total Events", int(r6d["total_events"]))
+        d2.metric("Capital Events", int(r6d["capital_events"]))
+        d3.metric("Non-Capital Events", int(r6d["non_capital_events"]))
+        d4.metric("% Capital", f"{r6d['pct_capital']:.1f}%")
+        d5.metric("Hauptstädte besucht", int(r6d["unique_capitals"]))
+
+    if len(art_caps) > 0:
+        fig_det6 = px.bar(
+            art_caps, x="city", y="visits",
+            hover_data={"city": True, "country": True, "visits": True},
+            color="visits", color_continuous_scale="YlGn",
+            labels={"visits": "Besuche", "city": "Hauptstadt"},
+            title=f"{sel_art6} — Hauptstadtbesuche",
+            template="plotly_dark",
+        )
+        fig_det6.update_layout(
+            height=350, paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
+            font=dict(color="white"),
+            xaxis=dict(gridcolor="#333", tickangle=-30),
+            yaxis=dict(gridcolor="#333"),
+            coloraxis_showscale=False,
+        )
+        st.plotly_chart(fig_det6, use_container_width=True)
+    else:
+        st.info(f"{sel_art6} hat keine Hauptstadtkonzerte im Dataset.")
+else:
+    st.info("⚠️  `f6_capitals_per_artist.csv` fehlt.")
+
+st.divider()
+
+# ══════════════════════════════════════════════════════════════════════════
 # ZUSAMMENFASSUNG Q2
 # ══════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-title">Zusammenfassung — Question 2: Capital Cities</div>',
