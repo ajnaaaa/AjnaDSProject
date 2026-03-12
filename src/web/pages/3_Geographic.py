@@ -255,7 +255,7 @@ st.markdown(f"""
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-The distribution card below the chart shows that 19 artists (9%) fall above the diagonal — meaning they revisit more cities than they explore new ones — while 182 artists (84%) fall below it, indicating that the large majority of artists visit more new cities than they return to. Since fewer than 50% of artists cluster above the line, geographic expansion rather than consolidation is the dominant strategy across the dataset. When colour-encoded by total events, any visible clustering of brighter dots (larger tours) on one side of the diagonal indicates a systematic link between tour scale and revisit behaviour — a relationship tested more rigorously in Graph 2.
+The distribution card below the chart shows that 19 artists (9%) fall above the diagonal — meaning they revisit more cities than they explore new ones — while 182 artists (84%) fall below it, indicating that the large majority of artists visit more new cities than they return to. When colour-encoded by total events, any visible clustering of brighter dots (larger tours) on one side of the diagonal indicates a systematic link between tour scale and revisit behaviour — a relationship tested more rigorously in Graph 2.
 """ if len(df_s) > 0 else """
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
@@ -269,7 +269,7 @@ st.markdown("""
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #10b981;border-radius:10px;padding:18px 22px;margin-bottom:16px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#10b981;margin-bottom:10px;">🔍 Interpretation</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
-A concentration of artists above the diagonal confirms that revisiting proven markets is the dominant touring strategy. The interactive filters let you isolate large-scale tours to test whether tour size reinforces this pattern, directly contributing to answering Research Question 1.
+This graph provides an immediate visual overview of whether artists prefer to return to proven markets or explore new ones.This graph provides an immediate visual overview of whether artists prefer to return to proven markets or explore new ones. A clear concentration above the diagonal would confirm that revisiting established cities is the standard touring approach across the dataset. This finding directly addresses Research Question 1 by establishing the baseline balance between consolidation and geographic expansion. A clear concentration above the diagonal would confirm that revisiting established cities is the standard touring approach across the dataset. This finding directly addresses Research Question 1 by establishing the baseline balance between consolidation and geographic expansion.
 </div>
 </div>
 """, unsafe_allow_html=True)
