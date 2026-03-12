@@ -279,7 +279,7 @@ else:
 st.markdown("""
 <div style="background:#0f1829;border:1px solid #1e2d45;border-left:3px solid #6366f1;border-radius:10px;padding:18px 22px;margin-bottom:12px;">
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
-<div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;"><p style="margin:0 0 10px 0;">The dashed diagonal reference line (ratio = 1) serves as the key benchmark: any artist above<br>it has more revisit cities than new cities, and vice versa. The distribution card below the<br>chart shows the exact percentage split, giving a simple but powerful statistical summary of<br>touring behaviour across the full dataset. When colour-encoded by total events, clustering of<br>brighter dots (larger tours) on one side of the diagonal would indicate a systematic<br>relationship between tour scale and revisit behaviour — a hypothesis tested more rigorously<br>in Graph 2.</p></div>
+<div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;"><p style="margin:0 0 10px 0;">The dashed diagonal reference line (ratio = 1) serves as the key benchmark: any artist above<br>it has more revisit cities than new cities. The distribution card below the<br>chart shows the exact percentage split, giving a simple but powerful statistical summary of<br>touring behaviour across the full dataset. When colour-encoded by total events, clustering of<br>brighter dots (larger tours) on one side of the diagonal would indicate a systematic<br>relationship between tour scale and revisit behaviour — a hypothesis tested more rigorously<br>in Graph 2.</p></div>
 </div>
 """, unsafe_allow_html=True)
 
