@@ -282,7 +282,7 @@ st.markdown('<div class="section-title">📦 Graph 2 — Revisit Rate by Tour Si
             unsafe_allow_html=True)
 
 st.markdown("""
-This box plot divides artists into groups based on their total number of tour events — from small to very large — and shows the distribution of the revisit rate within each group. The horizontal line inside each box marks the median, while the box itself spans the middle 50% of artists. The goal is to test whether larger tours tend to have higher revisit rates, supporting the idea that bigger artists prefer safe, proven markets.
+This box plot divides artists (n = 286) into groups based on their total number of tour events — from small to very large — and shows the distribution of the revisit rate within each group. The horizontal line inside each box marks the median, while the box itself spans the middle 50% of artists. The goal is to test whether larger tours tend to have higher revisit rates, supporting the idea that bigger artists prefer safe, proven markets.
 """)
 
 b1, b2 = st.columns([1, 3])
@@ -324,7 +324,7 @@ try:
                 "revisit_ratio": "Ratio (Revisit / New)",
                 "pct_events_revisit": "% Events in Revisit-Cities"}
     fig2.update_layout(
-        title=f"{y_labels[y_met]} by Tour-size",
+        title=f"{y_labels[y_met]} by Tour-size ",
         yaxis_title=y_labels[y_met],
         template="plotly_dark",
         paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
