@@ -1026,7 +1026,7 @@ st.markdown("""
 st.divider()
 st.markdown("""
 <div class="rq-box">
-    <h3>🌍 Research Question 3</h3>
+    <h3> Research Question 3</h3>
     <p>How well do the countries where an artist has the highest <strong>listener reach</strong>
     on Last.fm align with the countries where they perform on their Ticketmaster tour?
     </p>
