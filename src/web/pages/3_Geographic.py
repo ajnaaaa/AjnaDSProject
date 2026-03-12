@@ -1272,10 +1272,10 @@ st.markdown("""
 This graph compares three geographic alignment metrics and one contextual streaming metric across artist popularity tiers based on Last.fm listener counts. Artists are divided into four equally sized groups (Q1–Q4), ranging from low popularity (Q1) to high popularity (Q4). Each bar shows the average value of a metric within that tier.
 
 The three metrics capture different dimensions of how well tour locations match streaming audiences:<br>
-	•	Weighted Coverage (blue): Measures how many important streaming countries are actually visited on tour, giving more weight to countries with more listeners.<br>
-	•	Jaccard Similarity (purple): Measures the overlap between the set of streaming countries and tour countries.<br>
-	•	Tour Coverage (orange): Indicates how much of the streaming audience’s geographic distribution is covered by the tour.<br>
-	•	Streaming Reach (green): Shows how internationally distributed the artist’s streaming audience is.<br>
+	•	**Weighted Coverage (blue)**: Measures how many important streaming countries are actually visited on tour, giving more weight to countries with more listeners.<br>
+	•	**Jaccard Similarity (purple)**: Measures the overlap between the set of streaming countries and tour countries.<br>
+	•	**Tour Coverage (orange)**: Indicates how much of the streaming audience’s geographic distribution is covered by the tour.<br>
+	•	**Streaming Reach (green)**: Shows how internationally distributed the artist’s streaming audience is.<br>
 
 By comparing these metrics across popularity tiers, the graph reveals how geographic alignment between streaming audiences and touring activity changes with artist popularity.
 """,unsafe_allow_html=True)
@@ -1341,8 +1341,8 @@ st.markdown(f"""
 <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#818cf8;margin-bottom:10px;">📊 Statistical Analysis</div>
 <div style="color:#C8D6E8;font-size:.9rem;line-height:1.65;">
 A Kruskal–Wallis test was used to compare the alignment metrics across popularity tiers.<br>
-	•	H = 10.16
-	•	p = 0.017
+	H = 10.16<br>
+	p = 0.017<br>
 
 Since p < 0.05, the differences between popularity tiers are statistically significant, meaning that geographic alignment varies meaningfully with artist popularity.
 </div>
