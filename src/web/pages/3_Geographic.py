@@ -423,7 +423,7 @@ if city_df is not None:
         paper_bgcolor="#0e0e0e", plot_bgcolor="#1a1a1a",
         font=dict(color="white"),
         xaxis=dict(gridcolor="#333"), yaxis=dict(gridcolor="#333"),
-        title=f"Top {top_n} meistbesuchte Städte (mind. {min_art} Artists)",
+        title=f"Top {top_n} most visited cities (min. {min_art} Artists)",
     )
     with c2:
         st.plotly_chart(fig3, use_container_width=True)
